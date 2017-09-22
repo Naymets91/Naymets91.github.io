@@ -59,15 +59,17 @@ html {
 	font-size: 16px ;
 	font-family: sans-serif;
 	line-height: 20px;
+	color: #5E5D59;
 }
 .body__adres h2 {
 	font-size: 20px ;
 	font-family: sans-serif;
+	color: #5E5D59;
 }
 .body h3 {
 	font-size: 18px ;
 	font-family:  sans-serif;
-	color: #5E5D59;
+	color: #111111;
 }
 .body__adres{
 	margin: 40px 0;
