@@ -33,12 +33,10 @@ html {
 }
 .navigate li a{
 	font-size: 22px ;
-	font: #FFFFFF;
 	display:block;
 	padding:10px 30px;
 	text-decoration:none;
 	color: #3D3D41;
-	font-family: sans-serif;
 }
 .navigate li a:hover{
 	border: 3px solid #ffffff;
@@ -57,21 +55,22 @@ html {
 	width:  800px;
 	
 }
-.body p{
-	font-size: 18px ;
-	line-height: 30px;
-	font-family:  sans-serif;
+.body__adres p{
+	font-size: 16px ;
+	font-family: sans-serif;
+	line-height: 20px;
 }
-.body h2 {
-	font-size: 22px ;
+.body__adres h2 {
+	font-size: 20px ;
 	font-family: sans-serif;
 }
 .body h3 {
 	font-size: 18px ;
 	font-family:  sans-serif;
+	color: #5E5D59;
 }
 .body__adres{
-	padding: 40px 0;
+	margin: 40px 0;
 }
 .foto {
 	margin: 20px 0 80px;
