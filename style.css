@@ -38,6 +38,7 @@ html {
 	padding:10px 30px;
 	text-decoration:none;
 	color: #3D3D41;
+	font-family: sans-serif;
 }
 .navigate li a:hover{
 	border: 3px solid #ffffff;
@@ -59,15 +60,15 @@ html {
 .body p{
 	font-size: 18px ;
 	line-height: 30px;
-	font-family:  Verdana, sans-serif;
+	font-family:  sans-serif;
 }
 .body h2 {
 	font-size: 22px ;
-	font-family:  Verdana, sans-serif;
+	font-family: sans-serif;
 }
 .body h3 {
 	font-size: 18px ;
-	font-family:  Verdana, sans-serif;
+	font-family:  sans-serif;
 }
 .body__adres{
 	padding: 40px 0;
