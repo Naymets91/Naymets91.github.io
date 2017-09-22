@@ -73,11 +73,15 @@ html {
 }
 .foto {
 	margin: 20px 0 80px;
-	width: 300px;
-	height: 400px;
 	border-radius: 70px 0;
 	border: 2px solid #FFFFFF;
 	box-shadow: 11px 12px 22px -5px #413E3E;
+}
+.block1_foto{
+	margin: 20px 0 80px;
+}
+.block2_foto{
+	margin: 20px 0 80px;
 }
 
 .footer {
