@@ -53,6 +53,8 @@ html {
 	margin: 0 auto;
 	padding: 40px 0;
 	width:  800px;
+	height: auto;
+	position: relative;
 	
 }
 .body__adres p{
@@ -72,16 +74,20 @@ html {
 	margin: 40px 0;
 }
 .foto {
-	margin: 20px 0 80px;
+	margin: 20px 0;
 	border-radius: 70px 0;
 	border: 2px solid #FFFFFF;
 	box-shadow: 11px 12px 22px -5px #413E3E;
 }
 .block1_foto{
-	margin: 20px 0 80px;
+	margin: 20px 0 ;
+	float: left;
+	width: 400px;
 }
-.block2_foto{
-	margin: 20px 0 80px;
+.block2_foto p{
+	font-size: 20px ;
+	font-family: sans-serif;
+	line-height: 26px;
 }
 
 .footer {
@@ -96,8 +102,10 @@ html {
 	font: 12px ;
 	color: #3D3D41;
 	text-align: center;
+	clear: both;
 } 
 hr {
+	margin:10px 0;
 	border-radius: 360px 0;
 }
 
