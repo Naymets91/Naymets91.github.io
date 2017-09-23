@@ -34,7 +34,7 @@ html {
 .navigate li a{
 	font-size: 22px ;
 	display:block;
-	padding:10px 30px;
+	padding:10px 40px;
 	text-decoration:none;
 	color: #3D3D41;
 }
@@ -53,6 +53,7 @@ html {
 	margin: 0 auto;
 	padding: 40px 0;
 	width:  800px;
+	min-width:800px;
 	height: auto;
 	position: relative;
 	
@@ -84,10 +85,43 @@ html {
 	float: left;
 	width: 400px;
 }
+.block2_foto{
+	margin: 20px 0 ;
+}
+
+.block2_foto ul li{
+		padding: 5px;
+}
 .block2_foto p{
-	font-size: 20px ;
+	font-size: 18px ;
 	font-family: sans-serif;
 	line-height: 26px;
+}
+.tab {
+	 text-indent: 30px;
+}
+.podrobno li{
+	
+	float:left;
+	margin-top: 10px;
+	margin-right:10px;
+	position:relative;
+	display:block;
+}
+.podrobno li a{
+	background: #ffffff;
+	font-size: 18px ;
+	display:block;
+	padding:10px 30px;
+	text-decoration:none;
+	color: #3D3D41;
+	border: 3px solid #585757;
+	
+	border-radius: 10px;
+}
+.podrobno li a:hover{
+	border: 3px solid #ff9900;
+  	
 }
 
 .footer {
