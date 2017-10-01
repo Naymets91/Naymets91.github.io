@@ -13,38 +13,38 @@ html {
  	min-height:100%;
 }
 
-.main{
+.main {
 	padding: 40px 0 20px 0;
 	margin: 0 auto;
 	width: 900px;
 	height: 40px;
 }
-.navigate{
+.navigate {
 	float:left;
 	width:100%;
 	list-style:none;
 	margin-bottom:10px;
 }
-.navigate li{
+.navigate li {
 	float:left;
 	margin-right:10px;
 	position:relative;
 	display:block;
 }
-.navigate li a{
+.navigate li a {
 	font-size: 22px ;
 	display:block;
 	padding:10px 40px;
 	text-decoration:none;
 	color: #3D3D41;
 }
-.navigate li a:hover{
+.navigate li a:hover {
 	border: 3px solid #ffffff;
   	border-radius: 40px 10px;
   	box-shadow: 11px 12px 22px -5px #413E3E;
 }
 
-.select{
+.select {
 	background: #92e1e9;
 	border-radius: 40px 10px;
 }
@@ -58,7 +58,16 @@ html {
 	position: relative;
 	
 }
-.body__adres p{
+
+.obo_mne p {
+	margin: 10;
+	font-size: 18px;
+	font-family: sans-serif; 
+	text-indent: 30px;
+}
+
+
+.body__adres p {
 	font-size: 16px ;
 	font-family: sans-serif;
 	line-height: 25px;
@@ -71,8 +80,8 @@ html {
 	font-size: 19px ;
 	font-family:  sans-serif;
 }
-.body__adres{
-	margin: 40px 0;
+.body__adres {
+	margin: 10px 0;
 }
 .foto {
 	margin: 20px 0;
@@ -80,19 +89,19 @@ html {
 	border: 2px solid #FFFFFF;
 	box-shadow: 11px 12px 22px -5px #413E3E;
 }
-.block1_foto{
+.block1_foto {
 	margin: 20px 0 ;
 	float: left;
 	width: 400px;
 }
-.block2_foto{
+.block2_foto {
 	margin: 20px 0 ;
 }
 
-.block2_foto ul li{
+.block2_foto ul li {
 		padding: 5px;
 }
-.block2_foto p{
+.block2_foto p {
 	font-size: 18px ;
 	font-family: sans-serif;
 	line-height: 26px;
@@ -100,7 +109,7 @@ html {
 .tab {
 	 text-indent: 30px;
 }
-.podrobno li{
+.podrobno li {
 	
 	float:left;
 	margin-top: 10px;
@@ -108,7 +117,7 @@ html {
 	position:relative;
 	display:block;
 }
-.podrobno li a{
+.podrobno li a {
 	background: #ffffff;
 	font-size: 18px ;
 	display:block;
@@ -118,7 +127,7 @@ html {
 	border: 3px solid #585757;
 	border-radius: 10px;
 }
-.podrobno li a:hover{
+.podrobno li a:hover {
 	border: 3px solid #ff9900;
   	
 }
@@ -130,7 +139,7 @@ html {
  	bottom: 0;
  	width: 100%;
 }
-.footer p{
+.footer p {
 	padding: 20px;
 	font: 12px ;
 	color: #3D3D41;
