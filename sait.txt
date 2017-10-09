@@ -1,1 +1,3 @@
 css-tricks.com и stackoverflow.com. Многое можно найти в w3schools.
+
+https://puzzleweb.ru/css/00_teacher.php
