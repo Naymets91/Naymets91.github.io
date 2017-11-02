@@ -104,7 +104,9 @@ html {
 .block1_foto {
 	margin: 20px 0 ;
 	float: left;
-	width: 400px;
+	width: 300px;
+	height: 400px;
+
 }
 .block2_foto {
 	margin: 20px 0 ;
@@ -163,3 +165,14 @@ hr {
 	margin:10px 0;
 	border-radius: 360px 0;
 }
+.block_progres {
+	width: 250px;
+	height: 60px;
+	float: left;
+}
+.centr {
+	padding-top: 15px; 
+	margin: 0 auto;
+	height: 100px;
+}
+
