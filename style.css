@@ -6,7 +6,7 @@
 body {
 	background: url(images/fone3.jpg);
 	height: 100%;
- 	min-width:900px;
+ 	min-width:960px;
 }
 html { 
  	position:relative; 
@@ -14,9 +14,9 @@ html {
 }
 
 .main {
-	padding: 40px 0 20px 0;
+	padding: 40px 0 20px 60px;
 	margin: 0 auto;
-	width: 900px;
+	width: 960px;
 	height: 40px;
 }
 .navigate {
@@ -27,7 +27,7 @@ html {
 }
 .navigate li {
 	float:left;
-	margin-right:10px;
+	margin-right: 10px;
 	position:relative;
 	display:block;
 }
@@ -175,4 +175,10 @@ hr {
 	margin: 0 auto;
 	height: 100px;
 }
+.line {
+	background:#ff9900; 
+	width:200px; 
+	height:4px;
+	border:none; 
 
+}
