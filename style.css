@@ -1,16 +1,16 @@
 * {
-	margin:0;
-	padding:0;
+	margin: 0;
+	padding: 0;
 }
 
 body {
 	background: url(images/fone3.jpg);
-	height: 100%;
- 	min-width:960px;
+ 	min-width: 960px;
+ 	overflow-y: scroll;
 }
 html { 
- 	position:relative; 
- 	min-height:100%;
+ 	position: relative; 
+ 	min-height: 100%;
 }
 
 .main {
@@ -20,22 +20,22 @@ html {
 	height: 40px;
 }
 .navigate {
-	float:left;
-	width:100%;
-	list-style:none;
-	margin-bottom:10px;
+	float: left;
+	width: 100%;
+	list-style: none;
+	margin-bottom: 10px;
 }
 .navigate li {
-	float:left;
+	float: left;
 	margin-right: 10px;
-	position:relative;
-	display:block;
+	position: relative;
+	display: block;
 }
 .navigate li a {
 	font-size: 22px ;
-	display:block;
-	padding:10px 40px;
-	text-decoration:none;
+	display: block;
+	padding: 10px 40px;
+	text-decoration: none;
 	color: #3D3D41;
 }
 .navigate li a:hover {
@@ -52,11 +52,10 @@ html {
 .body {
 	padding-bottom: 180px;
 	margin: 10px auto;
-	width:  800px;
-	min-width:800px;
+	width: 800px;
+	min-width: 800px;
 	height: auto;
 	position: relative;
-	
 }
 
 .obo_mne p {
@@ -71,8 +70,9 @@ html {
 	font-family: Georgia, serif;
 	line-height: 25px;
 }
-.resume__zaglav {
-	margin-top: 35px;
+.resume__zaglav  {
+	font-size: 20px;
+	margin-top: 20px;
 }
 
 .resume ul {
@@ -90,7 +90,7 @@ html {
 }
 .body h1 {
 	font-size: 19px ;
-	font-family:  sans-serif;
+	font-family: sans-serif;
 }
 .body__adres {
 	margin: 10px 0;
@@ -126,18 +126,18 @@ html {
 }
 .podrobno li {
 	
-	float:left;
+	float: left;
 	margin-top: 10px;
-	margin-right:10px;
-	position:relative;
-	display:block;
+	margin-right: 10px;
+	position: relative;
+	display: block;
 }
 .podrobno li a {
 	background: #ffffff;
 	font-size: 18px ;
-	display:block;
-	padding:10px 30px;
-	text-decoration:none;
+	display: block;
+	padding: 10px 30px;
+	text-decoration: none;
 	color: #3D3D41;
 	border: 3px solid #585757;
 	border-radius: 10px;
@@ -162,7 +162,7 @@ html {
 	clear: both;
 } 
 hr {
-	margin:10px 0;
+	margin: 10px 0;
 	border-radius: 360px 0;
 }
 .block_progres {
@@ -176,9 +176,9 @@ hr {
 	height: 100px;
 }
 .line {
-	background:#ff9900; 
-	width:200px; 
-	height:4px;
-	border:none; 
+	background: #ff9900; 
+	width: 200px; 
+	height: 4px;
+	border: none; 
 
 }
