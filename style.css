@@ -78,6 +78,8 @@ html {
 
 .resume ul {
 	list-style: inside;
+	font-size: 16px;
+	line-height: 23px;
 }
 .body__adres p {
 	font-size: 16px ;
