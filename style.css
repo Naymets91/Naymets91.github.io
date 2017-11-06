@@ -107,6 +107,7 @@ html {
 .block2_foto {
 	float: right;
 	width: 400px;
+	height: 600px;
 }
 .block2_foto  li {
 	padding: 5px;
