@@ -11,8 +11,10 @@ body {
 html { 
  	position: relative; 
  	min-height: 100%;
+ 	font-family: Georgia, serif;
 }
 
+/* навигация */
 .main {
 	padding: 40px 0 20px 60px;
 	margin: 0 auto;
@@ -48,6 +50,8 @@ html {
 	background: #92e1e9;
 	border-radius: 40px 10px;
 }
+/* навигация */
+
 
 .body {
 	padding-bottom: 180px;
@@ -57,17 +61,14 @@ html {
 	height: auto;
 	position: relative;
 }
-
 .obo_mne p {
-	margin: 10;
-	font-size: 18px;
-	font-family: Georgia, serif; 
+	margin: 10px;
+	font-size: 18px; 
 	text-indent: 30px;
 }
 
 .resume p {
 	font-size: 18px;
-	font-family: Georgia, serif;
 	line-height: 25px;
 }
 .resume__zaglav  {
@@ -78,15 +79,12 @@ html {
 .resume ul {
 	list-style: inside;
 }
-
 .body__adres p {
 	font-size: 16px ;
-	font-family: Georgia, serif;
 	line-height: 25px;
 }
 .body__adres h2 {
 	font-size: 18px ;
-	font-family: Georgia, serif;;
 }
 .body h1 {
 	font-size: 19px ;
@@ -102,30 +100,30 @@ html {
 	box-shadow: 11px 12px 22px -5px #413E3E;
 }
 .block1_foto {
-	margin: 20px 0 ;
 	float: left;
 	width: 300px;
 	height: 400px;
-
 }
 .block2_foto {
-	margin: 20px 0 ;
+	float: right;
+	width: 400px;
 }
-
-.block2_foto ul li {
-		padding: 5px;
-		list-style: inside;
+.block2_foto  li {
+	padding: 5px;
+	list-style: inside;
+	color: #484848;
+}
+.block2_foto  ul {
+	margin: 10px 0;
 }
 .block2_foto p {
 	font-size: 18px ;
-	font-family: Georgia, serif;
 	line-height: 26px;
 }
 .tab {
-	 text-indent: 30px;
+	text-indent: 30px;
 }
 .podrobno li {
-	
 	float: left;
 	margin-top: 10px;
 	margin-right: 10px;
@@ -144,7 +142,6 @@ html {
 }
 .podrobno li a:hover {
 	border: 3px solid #ff9900;
-  	
 }
 
 .footer {
@@ -180,5 +177,5 @@ hr {
 	width: 200px; 
 	height: 4px;
 	border: none; 
-
+	margin-bottom: 20px;
 }
