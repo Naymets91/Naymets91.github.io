@@ -29,6 +29,10 @@ html {
 	font-size: 19px ;
 	font-family: sans-serif;
 }
+.body h2 {
+	font-size: 20px;
+	margin-top: 20px;
+}
 /* навигация */
 .main {
 	padding: 40px 0 20px 60px;
@@ -65,16 +69,11 @@ html {
 	border-radius: 40px 10px;
 }
 /* навигация */
-.resume__zaglav  {
-	font-size: 20px;
-	margin-top: 20px;
-}
 .resume ul {
 	list-style: inside;
 	font-size: 16px;
 	line-height: 23px;
 }
-
 .body__adres {
 	margin: 10px 0;
 }
@@ -159,7 +158,6 @@ hr {
 	padding-top: 20px;
 }
 /* прогрес бар */
-
 .progress-bar {
     font: 10px arial, sans-serif;
     margin: 10px;
