@@ -13,8 +13,22 @@ html {
  	min-height: 100%;
  	font-family: Georgia, serif;
 }
-
-
+.body {
+	padding-bottom: 180px;
+	margin: 10px auto;
+	width: 800px;
+	min-width: 800px;
+	height: auto;
+	position: relative;
+}
+.body p {
+	font-size: 16px;
+	line-height: 25px;
+}
+.body h1 {
+	font-size: 19px ;
+	font-family: sans-serif;
+}
 /* навигация */
 .main {
 	padding: 40px 0 20px 60px;
@@ -46,46 +60,21 @@ html {
   	border-radius: 40px 10px;
   	box-shadow: 11px 12px 22px -5px #413E3E;
 }
-
 .select {
 	background: #92e1e9;
 	border-radius: 40px 10px;
 }
 /* навигация */
-
-
-.body {
-	padding-bottom: 180px;
-	margin: 10px auto;
-	width: 800px;
-	min-width: 800px;
-	height: auto;
-	position: relative;
-}
-.body p {
-	font-size: 16px;
-	line-height: 25px;
-}
-
-
 .resume__zaglav  {
 	font-size: 20px;
 	margin-top: 20px;
 }
-
 .resume ul {
 	list-style: inside;
 	font-size: 16px;
 	line-height: 23px;
 }
-.body__adres p {
-	font-size: 16px ;
-	line-height: 25px;
-}
-.body h1 {
-	font-size: 19px ;
-	font-family: sans-serif;
-}
+
 .body__adres {
 	margin: 10px 0;
 }
@@ -136,7 +125,6 @@ html {
 .podrobno li a:hover {
 	border: 3px solid #ff9900;
 }
-
 .footer {
 	height: 60px;
 	background: #92e1e9;
@@ -155,7 +143,6 @@ hr {
 	margin: 10px 0;
 	border-radius: 60px 0;
 }
-
 .centr {
 	padding-top: 15px; 
 	margin: 0 auto;
