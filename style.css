@@ -199,13 +199,20 @@ hr {
 	width: 200px;
 	float: left;
 	margin: 10px 25px; 
-	border: 2px solid #696767;
+	border: 2px solid #fff;
 	border-radius: 20px 0 20px 0 ;
 	text-align: center;
 	box-shadow: 5px 7px 15px -5px #413E3E;
+}
+.grid img {
+	border-radius: 20px 0 20px 0 ;
 }
 .clearfix::after {
     content: "";
     display: table;
     clear: both;
 }
+.grid img:hover {
+	opacity:0.8;
+}
+
