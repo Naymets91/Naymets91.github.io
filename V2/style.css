@@ -2,12 +2,9 @@
 	margin: 0;
 	padding: 0;
 }
-
 body {
-	background: #f7f7f7;
- 	min-width: 1200px;
+ 	background: #f7f7f7;
  	overflow-y: scroll;
-
 }
 html { 
  	position: relative; 
@@ -15,6 +12,7 @@ html {
  	font-family: Georgia, serif;
 }
 .heder {
+	height: 90px;
 	background: #dfdfdf;
 	border: 1px solid #b5b7ba;
 }
@@ -76,7 +74,7 @@ html {
 	line-height: 23px;
 }
 .body__adres {
-	margin: 10px 0;
+	float: left;
 }
 .foto {
 	margin: 20px 0;
@@ -138,7 +136,8 @@ hr {
 	margin-bottom: 20px;
 }
 .maps {
-	padding-top: 20px;
+	float: right;
+	padding-top: 30px;
 }
 /* прогрес бар */
 .progress-bar {

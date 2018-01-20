@@ -213,7 +213,7 @@ hr {
     clear: both;
 }
 .grid img:hover {
-	opacity:0.8;
+	opacity:0.6;
 }
 .experience p:nth-child(1){
 	font-size: 18px ;
