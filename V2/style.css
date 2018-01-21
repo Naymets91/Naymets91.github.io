@@ -3,7 +3,8 @@
 	padding: 0;
 }
 body {
- 	background: #f7f7f7;
+	background: #f7f7f7;
+ 	min-width: 800px;
  	overflow-y: scroll;
 }
 html { 
@@ -12,34 +13,34 @@ html {
  	font-family: Georgia, serif;
 }
 .heder {
-	height: 90px;
+	height: 80px;
 	background: #dfdfdf;
 	border: 1px solid #b5b7ba;
 }
 .body {
 	padding-bottom: 180px;
-	margin: 20px auto;
-	width: 1200px;
+	margin: 10px auto;
+	width: 800px;
 	height: auto;
 	position: relative;
 }
 .body p {
-	font-size: 18px;
+	font-size: 16px;
 	line-height: 25px;
 }
 .body h1 {
-	font-size: 20px ;
+	font-size: 19px ;
 	font-family: sans-serif;
 }
 .body h2 {
-	font-size: 22px;
-	margin-top: 22px;
+	font-size: 20px;
+	margin-top: 20px;
 }
 /* навигация */
 .main {
-	padding: 20px 0 20px 5px;
+	padding: 20px 0 10px 20px;
 	margin: 0 auto;
-	width: 1200px;
+	width: 800px;
 	height: 40px;
 }
 .navigate {
@@ -50,16 +51,15 @@ html {
 }
 .navigate li {
 	float: left;
-	margin-right: 20px;
 	position: relative;
 	display: block;
 }
 .navigate li a {
-	font-size: 24px ;
+	font-size: 22px ;
 	display: block;
-	padding: 10px 40px;
+	padding: 10px 30px;
 	text-decoration: none;
-	color: #525253;
+	color: #3D3D41;
 }
 .navigate li a:hover {
 	color: #F9183D;
@@ -70,17 +70,35 @@ html {
 /* навигация */
 .resume ul {
 	list-style: inside;
-	font-size: 17px;
+	font-size: 16px;
 	line-height: 23px;
 }
 .body__adres {
-	float: left;
+	margin: 10px 0;
 }
 .foto {
 	margin: 20px 0;
 	border-radius: 70px 0;
 	border: 2px solid #FFFFFF;
 	box-shadow: 11px 12px 22px -5px #413E3E;
+}
+.block1_foto {
+	float: left;
+	width: 300px;
+	height: 400px;
+}
+.block2_foto {
+	float: right;
+	width: 400px;
+	height: 600px;
+}
+.block2_foto  li {
+	padding: 5px;
+	list-style: inside;
+	color: #484848;
+}
+.block2_foto  ul {
+	margin: 10px 0;
 }
 .tab {
 	text-indent: 30px;
@@ -136,8 +154,7 @@ hr {
 	margin-bottom: 20px;
 }
 .maps {
-	float: right;
-	padding-top: 30px;
+	padding-top: 20px;
 }
 /* прогрес бар */
 .progress-bar {
@@ -177,10 +194,10 @@ hr {
 }
 /* прогрес бар */
 .grid {
-	height: 300px;
-	width: 250px;
+	height: 200px;
+	width: 200px;
 	float: left;
-	margin: 10px 22px; 
+	margin: 10px 25px; 
 	border: 2px solid #9B9898;
 	border-radius: 20px 0 20px 0 ;
 	text-align: center;
@@ -189,13 +206,8 @@ hr {
 .grid img {
 	border-radius: 20px 0 20px 0 ;
 }
-.grid p:nth-child(1) {
-	padding: 20px 0;
-	font-size: 18px;
-}
 .grid p:nth-child(3) {
-	padding: 20px 0;
-	margin: 0 10px;
+	margin: 0 5px;
 }
 .clearfix::after {
     content: "";
@@ -210,11 +222,11 @@ hr {
 }
 
 .experience p:nth-child(2){
-	font-size: 15px;
+	font-size: 13px;
 }
 
 .experience p:nth-child(3){
-	font-size: 17px;
+	font-size: 16px;
 }
 .experience {
 	margin: 10px 0 ;
