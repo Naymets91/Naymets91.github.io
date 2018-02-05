@@ -14,7 +14,7 @@ html {
 }
 .heder {
 	height: 80px;
-	background: #dfdfdf;
+	background: #CAC9C9;
 	border: 1px solid #b5b7ba;
 }
 .body {
@@ -78,9 +78,9 @@ html {
 }
 .foto {
 	margin: 20px 0;
-	border-radius: 70px 0;
+	border-radius: 20px;
 	border: 2px solid #FFFFFF;
-	box-shadow: 11px 12px 22px -5px #413E3E;
+	box-shadow: 5px 5px 10px -5px #413E3E;
 }
 .block1_foto {
 	float: left;
