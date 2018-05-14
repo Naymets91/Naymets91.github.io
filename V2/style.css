@@ -194,10 +194,10 @@ hr {
 }
 /* прогрес бар */
 .grid {
-	height: 200px;
-	width: 200px;
+	height: 209px;
+	width: 209px;
 	float: left;
-	margin: 10px 25px; 
+	margin: 10px 23px; 
 	border: 2px solid #9B9898;
 	border-radius: 20px 0 20px 0 ;
 	text-align: center;
