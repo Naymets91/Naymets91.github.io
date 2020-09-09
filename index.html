@@ -1,55 +1,254 @@
 <!DOCTYPE html>
-<html lang="Ru">
-<head>
-	<meta charset="UTF-8">
-	<title>Портфолио</title>
-	<link rel="icon" href="favicon.ico" type="images/x-ico">
-	<link rel="stylesheet" href="normalize.css">
-	<link rel="stylesheet" href="style.css">
-</head>
-<body>
-	<div class="heder" ></div>
-	<div class="main">  
-		<div class="navigate">
-			<ul>
-				<li class="select" ><a href="index.html">Главная</a></li>
-				<li><a href="obo_mne.html">Обо мне</a></li>
-				<li><a href="resume.html">Резюме</a></li>
-				<li><a href="proekt.html">Проекты</a></li>
-				<li><a href="contact.html">Контакты</a></li>
-			</ul>
-		</div>
-	</div>
-			<div class="body">
-				
-				<div class="block1_foto">
-				<img class="foto" src="images/foto.jpg" widhh="300" height="400" alt="foto "></div>
-				<div class="block2_foto">
-				<h1>НАУМЕЦ СЕРГЕЙ</h1>
-				<hr class="line" align="left" />
-					<p class="tab">Меня зовут Сергей, 26 лет. Отлично разбираюсь в компьютерном железе.</p>
-					<p>Свободно ориентируюсь в софте:</p> 
-					<ul>
-      					<li>OS Windows (установка‚ настройка‚ администрирование).</li> 
-      					<li>Графические приложения: Photoshop.</li>
-      					<li>Офисные приложения: Word, Excel, PowerPoint.</li>
-						<li>Языки программирования: Java, delphi.</li>
-						<li>Языки разметки: HTML, CSS.</li>
-    				</ul>
-					<p class="tab">Автоматизирую сайты любой сложности...
-					</p>
-					<div class="podrobno">
-						<ul>
-						<li><a href="obo_mne.html">Узанать подробнее</a></li>
-						</ul>
-					</div>
+<html lang="ru">
 
-				</div>
-			</div>
-	<div class="footer">
-		
-		<p>&copy; 2019 Наумець Сергей </p>
-		
-	</div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My resume</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Main container -->
+  <div class="wrapper">
+    <aside class="sidebar">
+      <img class="my-foto" src=".\img\photo.jpg" alt="My photo">
+      <!--contacts -->
+      <div class="contacts-container">
+        <h3 class="contact-title">Контактная информация</h3>
+        <div>
+          <span class="contact-link-main">C:</span>
+          <a class="contacts-linc" href="tel:+380951138598">+38 098 62 866 08</a>
+        </div>
+        <div>
+          <span class="contact-link-main">V:</span>
+          <a class="contacts-linc" href="tel:+380951138598">+38 098 62 866 08</a>
+        </div>
+        <div>
+          <span class="contact-link-main">E:</span>
+          <a class="contacts-linc" href="mailto:chornyiav@gmail.com">exibet179@gmail.com</a>
+        </div>
+        <div>
+          <span class="contact-link-main">t:</span>
+          <span class="contacts-linc">exibet179</span>
+        </div>
+        <div>
+          <span class="contact-link-main">s:</span>
+          <span class="contacts-linc">exibet179</span>
+        </div>
+      </div>
+
+      <!-- tech skills container-->
+
+      <div class="skills-container">
+        <h3 class="skills-title">Технические навыки</h3>
+        <ul>
+          <li class="skills-item">
+            <span class="skills-text">Java</span>
+          </li>
+          <li class="skills-item">
+            <span class="skills-text">Selenium</span>
+          </li>
+          <li class="skills-item">
+            <span class="skills-text">Selenide</span>
+          </li>
+          <li class="skills-item">
+            <span class="skills-text">PageObject</span>
+          </li>
+          <li class="skills-item">
+            <span class="skills-text">Xpath</span>
+          </li>
+          <li class="skills-item">
+            <span class="skills-text">SQL</span>
+          </li>
+          <li class="skills-item">
+            <span class="skills-text">HTML</span>
+          </li>
+          <li class="skills-item">
+            <span class="skills-text">CSS</span>
+          </li>
+          <li class="skills-item">
+            <span class="skills-text">Adobe Photoshop</span>
+          </li>
+        </ul>
+      </div>
+
+
+
+      <!-- Soft Skills -->
+      <div class="skills-container">
+        <h3 class="skills-title">Soft Skills</h3>
+        <ul>
+          <li class="skills-item">
+            <span class="skills-text">Scrum</span>
+          </li>
+          <li class="skills-item">
+            <span class="skills-text">Agile</span>
+          </li>
+          <li class="skills-item">
+            <span class="skills-text">GTD</span>
+          </li>
+          <li class="skills-item">
+            <span class="skills-text">Teamwork</span>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- about me container -->
+    <div class="about-my-container">
+      <!-- about me main info -->
+      <div class="info-container">
+        <h2 class="profession">Тестировщик QA</h2>
+        <h1 class="name">Наумець Сергей</h1>
+        <p class="descrintions">
+          Увлекаюсь компьютерными технологиями и новинками в сфере IT технологий,
+          много времени потратил для обучения qa, за этот период приобрел навык
+          усидчивость и целеустремленность.
+        </p>
+        <p class="descrintions">
+          После окончания вуза занялся самообучением в сфере IT технологий. Все свое
+          свободное время уделяю совершенствованию знаний в автоматизации и углубленном
+          изучению java. Из собственных качеств выделить могу желание расти и развиваться,
+          познавать новое.
+        </p>
+        <p class="descrintions">
+          Имею полное понимание работы интерактивных сайтов и методов их построения
+          (изучал CSS, Html) что в свою очередь позволит быстрее делать свою работу.
+          Для написания автотестов использую Java и фреймворки Maven, Selenide и
+          TestNG.
+          Умею работать с БД SQL на уровне простых запросов.
+        </p>
+      </div>
+
+      <!-- project container -->
+      <div class="project-container">
+        <h3 class="about-my-title">Ключевые знания и навыки</h3>
+        <ul>
+          <li class="project-item">
+            <p>Знание основ тестирования
+            </p>
+          </li>
+          <li class="project-item">
+            <p>Создания тест кейсов, чек листов, баг репортов
+              <a class="progect-linc" target="_blank"
+                href="https://drive.google.com/drive/folders/16SLZ-UxAMurvpEtZSqgMEwj_-W1KvdVb?usp=sharing">пример.</a>
+            </p>
+
+          </li>
+          <li class="project-item">
+            <p>Создание автотестов Maven, Selenide, TestNG, Page Object <a class="progect-linc" target="_blank"
+                href="https://drive.google.com/drive/folders/16SLZ-UxAMurvpEtZSqgMEwj_-W1KvdVb?usp=sharing">пример.</a>
+            </p>
+          </li>
+          <li class="project-item">
+            <p>Умение работать с БД SQL на уровне простых запросов
+            </p>
+          </li>
+          <li class="project-item">
+            <p>html/css на базовом уровне (пример сайта).</p>
+          </li>
+        </ul>
+      </div>
+      <!-- Work Experience -->
+      <div class="Work-container">
+        <h3 class="about-my-title">Опыт работы:</h3>
+        <!-- Company 1 -->
+        <div>
+          <h4 class="professional-title">Freelance<span class="professional-company"> Тестирования сайтов</span> </h4>
+          <span class="date-job">Июль 2020 - по настояще время <span class="properti-devider">|</span> Украина</span>
+          <ul class="profession-dyties">
+            <li class="profession-dyties-items">
+              Создания автотестов.
+            </li>
+            <li class="profession-dyties-items">
+              Регрессионное тестирование.
+            </li>
+            <li class="profession-dyties-items">
+              Функциональное тестирование.
+            </li>
+          </ul>
+          <p class="achievements">Достижения:</p>
+          <p class="achievements-title">
+            Приминения на практике все свои навыки.
+          </p>
+        </div>
+        <!-- Company 2 -->
+        <div>
+          <h4 class="professional-title">УПСЗН (соцзащита населения) <span class="professional-company">Системный
+              администратор</span> </h4>
+          <span class="date-job">Ноябрь 2010 - по настояще время <span class="properti-devider">|</span> Украина</span>
+          <ul class="profession-dyties">
+            <li class="profession-dyties-items">
+              администрирование серверов, установка и настройка с «нуля».
+            </li>
+            <li class="profession-dyties-items">
+              установка настройка ОС : Windows XP, Windows 7, Windows 10
+            </li>
+            <li class="profession-dyties-items">
+              настройка локальных сетей.
+            </li>
+            <li class="profession-dyties-items">
+              обслуживание сети из 40+ компьютеров.
+            </li>
+            <li class="profession-dyties-items">
+              сборка, настройка железа, подбор и установка программного обеспечения,обучение новых пользователей.
+            </li>
+            <li class="profession-dyties-items">
+              установка и настройка : принтеров, модемов, свитчей.
+            </li>
+          </ul>
+          <p class="achievements">Достижения:</p>
+          <p class="achievements-title">
+            Изучил основы тестирования и применил на практике в фрилансе.
+            изучил основы HTML5 и CSS3, а также изучил язык
+            программирования Java который использую для написания автотестов
+            Получил практический опыт настройки виртуальных машин
+          </p>
+        </div>
+        <!-- Company 3 -->
+        <div>
+          <h4 class="professional-title">Фотостудия «Спектр»<span class="professional-company"> Администратор
+              фотостудии</span></h4>
+          <span class="date-job">Январь 2010 - ноябрь 2010 <span class="properti-devider">|</span> Украина</span>
+          <ul class="profession-dyties">
+            <li class="profession-dyties-items">
+              Фото на документ.
+            </li>
+            <li class="profession-dyties-items">
+              Портретная фотография.
+            </li>
+            <li class="profession-dyties-items">
+              Ретуширование фото.
+            </li>
+            <li class="profession-dyties-items">
+              Подготовка фото к печати.
+            </li>
+            <li class="profession-dyties-items">
+              Создания визиток.
+            </li>
+          </ul>
+          <p class="achievements">Достижения:</p>
+          <p class="achievements-title">
+            За время работы освоил на высоком уровне графический редактор PhotoShop.
+            Научился работать со светофильтрами, приобрел навыки портретной съемки,
+            использования разных фильтров при ретушировании фотографии, а также много
+            узнал о смарт-объектах.
+          </p>
+        </div>
+      </div>
+      <!-- Education -->
+      <div>
+        <h3 class="about-my-title">Образование</h3>
+        <h4 class="professional-company">Хмельницкий национальный университет</h4>
+        <h4 class="education-specialty">Инженернаямеханика, Электробытовая техника.</h4>
+        <span class="date-job">Septermber 2010 - June 2015 <span class="properti-devider">|</span> Украина</span>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
 </body>
+
 </html>
