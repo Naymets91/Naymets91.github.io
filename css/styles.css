@@ -36,6 +36,11 @@ padding-bottom: 40px;
 width: 370px;
 }
 
+.my-contacts{
+ width: 15px;  
+ margin-right: 8px;
+}
+
 .progect-linc {
 color: #9b7657;
 font-size: 14px;
@@ -51,7 +56,8 @@ padding: 40px 110px;
 .contacts-container {
 margin-left: 40px;
 margin-right: 40px;
-margin-top: 60px;
+margin-top: 30px;
+line-height: 24px;
 }
 
 .contact-title {
