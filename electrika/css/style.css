@@ -47,7 +47,7 @@ transform: rotate(180deg);
 }
 
 .menu {
-padding: 5px 0 58px;
+padding: 50px 0 58px;
 background: linear-gradient(180deg, #FDF4E3 0%, #FDF4E3 43.62%, rgba(32, 31, 33, 0) 86.33%);
 }
 .menu__list {
@@ -111,6 +111,92 @@ width: 60px;
 height: 50px;
 padding-left: 20px;
 }
+
+.servise__text-title {
+ font-size: 40px;
+ line-height: 40px;
+ color:  #252525  ; 
+ text-shadow: rgb(109, 108, 108) 0 0 2px; 
+ margin-top: 150px;
+ text-align: center;
+ margin-bottom: 100px;
+}
+
+.grid-container__service {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+grid-gap: 75px 75px;
+padding-top: 50px; 
+grid-auto-rows: auto;
+position: relative;
+justify-content: center;
+align-items: center; 
+}
+
+.sevise__text-inner {
+margin-top: 25px;  
+font-size: 30px;
+line-height: 35px;
+color: #0e0e0e;  
+text-shadow: rgb(243, 168, 69) 0 0 2px;
+}
+
+.block__servise {
+background-repeat: no-repeat;
+background-position: center center;
+background-size: cover;
+position: relative;
+justify-content: center;
+align-items: center; 
+}
+
+.sevise__img {
+display:block;
+margin: auto;
+align-items: center; 
+height: 250px;
+width: 250px;
+}
+
+
+
+
+.seasons__inner {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+grid-gap: 75px 75px;
+padding-top: 50px;
+list-style: none;
+}
+
+.seasons__item {
+height: 80px; 
+background-repeat: no-repeat;
+background-position: center center;
+background-size: cover;
+position: relative;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.servise__text {
+font-size: 20px;
+line-height: 25px;
+padding: 12px 78px 11px ;
+color: #0E0E0E;  
+}
+
+
+
+
+
+
+
+
+
+
+
 
 @media (max-width:1000px)  {
     .menu__list_link {
