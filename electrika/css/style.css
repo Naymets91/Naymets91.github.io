@@ -47,7 +47,7 @@ transform: rotate(180deg);
 }
 
 .menu {
-padding: 50px 0 58px;
+padding: 5px 0 58px;
 background: linear-gradient(180deg, #FDF4E3 0%, #FDF4E3 43.62%, rgba(32, 31, 33, 0) 86.33%);
 }
 .menu__list {
