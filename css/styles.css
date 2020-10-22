@@ -54,7 +54,7 @@ padding: 40px 50px;
 /* contact  */
 .contacts-container {
 margin: 30px 40px ;
-line-height: 24px;
+line-height: 30px;
 }
 
 .contact-name {
@@ -101,7 +101,7 @@ margin-bottom: 20px;
 }
 
 .skills-item{
-font-size: 15px;
+font-size: 16px;
 font-weight: 400;
 color:  #ff6b08;
 margin-left: 15px;
@@ -215,3 +215,76 @@ margin-bottom: 11px;
 }
 
 
+@media (max-width:1050px)  {
+.descrintions  {
+font-size: 14px;
+}
+p {
+font-size: 14px;	
+}
+.profession-dyties-items{
+font-size: 14px;
+}
+.achievements-title{
+font-size: 14px;
+}	
+}
+
+@media (max-width:850px)  {
+body{
+padding: 20px 20px;
+}	
+.sidebar {
+background: #1e2939;
+width: 230px;
+padding: 15px 0px 40px;
+}
+
+.my-foto {
+width: 230px;
+}
+
+.contacts-container {
+margin: 30px 20px ;
+}
+	
+.skills-container{
+margin: 55px 20px 0 20px;
+}	
+.about-my-container {
+padding: 40px 15px;
+}	
+
+}
+
+@media (max-width:565px)  {
+.wrapper {
+display: block;
+}
+	
+.sidebar {
+background: #1e2939;
+width: 100%;
+}
+.my-foto {
+width: 100%;
+}	
+
+}
+
+@media (max-width:470px)  {
+body{
+padding: 9px 9px;
+}	
+
+.contact-name {
+font-size: 25px;
+margin-top: 20px;
+}	
+	
+.sidebar {
+padding: 15px 0px 40px;
+}
+	
+	
+}
