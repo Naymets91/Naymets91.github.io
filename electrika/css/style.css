@@ -153,14 +153,36 @@ align-items: center;
 
 .sevise__img {
 display:block;
-margin: auto;
+margin:  0 auto;
 align-items: center; 
 height: 150px;
 width: 150px;
 }
 
+.galery__slider {  
+max-width: 100%;
+}
+.galery__img {
+border: 10px solid #ffffff;
+}
 
+.click-btn {
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+border:none;
+background-color: transparent; /* Чтоб прозрачность была  */
+z-index: 5;
+cursor: pointer;
+outline: none; /* отключить обводку стрелок кнопки  */
+}
+.slick-prev {
+left: 38px;
+}
 
+.slick-next {
+right: 38px;
+}
 
 /* .seasons__inner {
 display: grid;
@@ -281,11 +303,25 @@ display: none;
      font-size: 30px;
     line-height: 30px;
    } 
+
 .grid-container__service {
-  padding-top: 40px;
-  
+  padding-top: 20px;
 }
 
+.sevise__text-inner {
+font-size: 20px;
+line-height: 20px; 
+}
+
+.sevise__img {
+height: 100px;
+width: 100px;
+}
+.servise__text-title {
+     margin-top: 20px;
+     margin-bottom: 20px;
+     grid-gap: 25px 25px;
+   } 
 
 }
 
