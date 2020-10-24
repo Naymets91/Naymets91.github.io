@@ -47,7 +47,7 @@ transform: rotate(180deg);
 }
 
 .menu {
-padding: 5px 0 58px;
+padding: 50px 0 58px;
 background: linear-gradient(180deg, #FDF4E3 0%, #FDF4E3 43.62%, rgba(32, 31, 33, 0) 86.33%);
 }
 .menu__list {
@@ -131,6 +131,7 @@ grid-auto-rows: auto;
 position: relative;
 justify-content: center;
 align-items: center; 
+text-align: center;
 }
 
 .sevise__text-inner {
@@ -161,7 +162,7 @@ width: 150px;
 
 
 
-.seasons__inner {
+/* .seasons__inner {
 display: grid;
 grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
 grid-gap: 75px 75px;
@@ -185,7 +186,7 @@ font-size: 20px;
 line-height: 25px;
 padding: 12px 78px 11px ;
 color: #0E0E0E;  
-}
+} */
 
 
 
@@ -198,13 +199,14 @@ color: #0E0E0E;
 
 
 
-@media (max-width:1000px)  {
+@media (max-width:1366px)  {
     .menu__list_link {
     font-weight: 400;   
     font-size: 30px;
     line-height: 35px;
     }
     .menu__text-title {
+      padding-top: 10vh;
     font-size: 80px;
     line-height: 80px;
     }
@@ -221,6 +223,10 @@ color: #0E0E0E;
      width: 50px;
      height: 40px;   
     }
+   .servise__text-title {
+     margin-top: 100px;
+     margin-bottom: 100px;
+   } 
 }
 
 @media (max-width:770px) {
@@ -233,7 +239,12 @@ color: #0E0E0E;
     font-size: 28px;
     line-height: 30px;
     }
-   
+   .servise__text-title {
+     margin-top: 70px;
+     margin-bottom: 70px;
+     grid-gap: 50px 50px;
+   } 
+
 } 
 
 @media (max-width:560px) {
@@ -263,6 +274,19 @@ padding: 5px 0 18px;
 .menu__list{  
 display: none;
 }
+
+.servise__text-title {
+     margin-top: 35px;
+     margin-bottom: 35px;
+     font-size: 30px;
+    line-height: 30px;
+   } 
+.grid-container__service {
+  padding-top: 40px;
+  
+}
+
+
 }
 
 @media (max-width:330px) {
