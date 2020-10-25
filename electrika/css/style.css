@@ -113,6 +113,10 @@ padding-left: 20px;
 }
 
 .servise__text-title {
+ padding-top: 20px;
+ padding-bottom: 20px;
+ height: auto;
+ background-color: #fcfcfce1 ; 
  font-size: 40px;
  line-height: 40px;
  color:  #252525  ; 
