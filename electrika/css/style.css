@@ -215,6 +215,38 @@ right: 38px;
 
 
 
+table {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+  border-collapse: collapse;
+  color: #686461;
+  border: 1px solid green; /* Рамка вокруг таблицы */
+    margin: 0 auto; /* Выравниваем таблицу по центру окна  */
+}
+/* caption {
+  padding: 10px;
+  color: white;
+  background: #8FD4C1;
+  font-size: 18px;
+  text-align: left;
+  font-weight: bold;
+} */
+th {
+  border-bottom: 3px solid #B9B29F;
+  padding: 10px;
+  text-align: left;
+}
+td {
+  padding: 10px;
+}
+tr:nth-child(odd) {
+  background: white;
+}
+tr:nth-child(even) {
+  background: #E8E6D1;
+}
+
+
+
 /* .seasons__inner {
 display: grid;
 grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
