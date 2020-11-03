@@ -431,8 +431,6 @@ padding-top: 10px;
 padding-left: 0;
 }
 
-
-
 .block {
   padding: 30px 0;
 }
@@ -482,6 +480,12 @@ line-height: 16px;
  line-height: 15px; 
 }
 
+.servise__text {
+color: #fdf1c8;
+font-size: 18px; 
+line-height: 20px;
+margin-bottom: 7px; 
+}
 
 body {
  font-size: 15px; 
