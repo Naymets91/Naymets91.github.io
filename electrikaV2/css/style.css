@@ -10,6 +10,7 @@ font-size: 18px;
 line-height: 21px;
 }
 
+
 a {
 color: inherit; /* поставить приоритет наследовать от   */
 text-decoration: none; /* убрать подчеркивание у ссылок */
@@ -340,29 +341,39 @@ tr:nth-child(even) {
     font-size: 25px;
     line-height: 25px;
     }
+	
     .block__image { 
      height: 40px;   
     }
+	
+	
    .servise__text-title {
      margin-top: 100px;
      margin-bottom: 100px;
    } 
+.logo__220 {
+  padding-top: 20px;
+ 
+  max-width: 60%;
+ height: auto; 
+}
+.menu__text-title {
+padding-top: 10vh;
+
+}
+.head__telefon {
+padding-top:  10px;
+padding-bottom: 22px;
+}
 
 }
 @media (max-width:1000px) {
 .menu__text-title {
-padding-top: 10vh;
 font-size: 35px;
 line-height: 35px;
 }
 
-.logo__220 {
-  padding-top: 5vh;
-}
 
-.head__telefon {
-display: none;
-}
 
 .img__servis {
 height: 350px;  
@@ -439,12 +450,16 @@ padding-left: 0;
 padding: 5px 0 18px;
 }
 
+.head__telefon {
+display: block;
+}
+
 .tel__text {
- line-height: 40px; 
+ line-height: 20px; 
 }
 
 .tel__linc {
-line-height: 40px;
+line-height: 25px;
 font-size: 20px;  
 }
 
