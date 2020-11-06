@@ -540,4 +540,7 @@ line-height: 20px;
   margin-top: -1px;
   height: 18px;   
 }
+.tel__linc {
+  padding-left: 10px;
+}
 }
