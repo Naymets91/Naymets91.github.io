@@ -76,14 +76,15 @@ text-align: left;
 } 
 
 .logo__220 {
-  padding-top: 15vh;
-  padding-left: 60px;
-  max-width: 100%;
+ padding-top: 15vh;
+ padding-left: 60px;
+ max-width: 100%;
  height: auto; 
 }
 
 .logo__220-mob {
   display: none; 
+  
 }
 
 .head__experience {
