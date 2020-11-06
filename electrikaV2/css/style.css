@@ -82,6 +82,10 @@ text-align: left;
  height: auto; 
 }
 
+.logo__220-mob {
+  display: none; 
+}
+
 .head__experience {
   padding-top: 30px;
 }
@@ -432,9 +436,19 @@ display: none;
 
 @media (max-width:560px) {
 
-.logo__220 {
-padding-top: 10px;
-padding-left: 0;
+.logo_none {
+display: none;
+}
+
+.block__menu {
+  width: 100%;
+  padding-left: 10px;
+}
+
+.logo__220-mob {
+  display: block;
+max-width: 100%;
+ height: auto; 
 }
 
 .block {
