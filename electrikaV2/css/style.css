@@ -84,7 +84,6 @@ text-align: left;
 
 .logo__220-mob {
   display: none; 
-  
 }
 
 .head__experience {
@@ -190,15 +189,65 @@ list-style-type: square;
 }
 
 
+.card__grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+grid-gap: 25px 15px;
+grid-auto-rows: auto;
+position: relative;
+justify-content: center;
+align-items: center; 
+text-align: center;
+}
 
+.card {
+  margin: 0 15px;
+  background-color: #494747;
+  width: 270px;
+  height: 330px;
+  border:1px solid #ffF;
+}
+
+
+
+a.card__link {
+display: block;
+transition: all 0.2s ease-in;
+}
+
+a.card__link:hover {
+  opacity: 0.9;
+  transform: translateY(-5px);
+}
+
+.servis__img{
+display:block;
+margin:  10px auto;
+align-items: center;   
+width: 190px;  
+height: 190px;
+}
+
+.card__title {
+  padding-top: 10px;
+  font-size: 20px;
+  color:#adadad;
+  margin: 20px 15px 0;
+  text-align: center;
+}
+
+.svg path {
+  fill: red;
+}
 
 .servise__text-title {
  height: auto;
  font-size: 40px;
  line-height: 40px;
- margin-top: 150px;
+ margin-top: 50px;
  text-align: center;
- margin-bottom: 100px;
+ margin-bottom: 50px;
+ color: #a8a8a8;
 }
 
 .grid-container__service {
@@ -288,12 +337,6 @@ left: 38px;
 right: 38px;
 }
 
-
-.price{
-background-color: #1c1d1f;
-padding-top: 20px;
-padding-bottom: 30px;	
-}
 
 
 table {
