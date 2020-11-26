@@ -76,7 +76,8 @@ text-align: left;
 } 
 
 .logo__220 {
- padding-top: 15vh;
+ padding-top: 9vh;
+ padding-bottom: 6vh;
  padding-left: 60px;
  max-width: 100%;
  height: auto; 
@@ -192,7 +193,8 @@ list-style-type: square;
 .card__grid {
 display: grid;
 grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
-grid-gap: 25px 15px;
+grid-gap: 35px 35px;
+padding-top: 50px; 
 grid-auto-rows: auto;
 position: relative;
 justify-content: center;
@@ -201,10 +203,10 @@ text-align: center;
 }
 
 .card {
-  margin: 0 15px;
+  margin: 0 auto;
   background-color: #494747;
-  width: 270px;
-  height: 330px;
+  width: 280px;
+  height: 320px;
   border:1px solid #ffF;
 }
 
@@ -231,6 +233,7 @@ height: 190px;
 .card__title {
   padding-top: 10px;
   font-size: 20px;
+  line-height: 22px;
   color:#adadad;
   margin: 20px 15px 0;
   text-align: center;
