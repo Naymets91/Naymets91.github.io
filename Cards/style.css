@@ -41,7 +41,7 @@ h2 {
   transition: width 0.4s ease;
 }
 
-#progress-text {
+#progress-text, #timer {
   margin: 5px 0;
   font-weight: bold;
   color: #333;
@@ -65,7 +65,7 @@ h2 {
   border: 2px solid transparent;
   cursor: pointer;
   transition: all 0.4s ease;
-  background-color: #3498db; /* синя */
+  background-color: #3498db;
   color: white;
 }
 
@@ -73,7 +73,7 @@ h2 {
   background-color: #2980b9;
 }
 
-/* Блок службових кнопок */
+/* Кнопки управління */
 .buttons-row {
   display: flex;
   justify-content: space-between;
@@ -92,29 +92,14 @@ h2 {
   transition: 0.3s;
 }
 
-/* Пропустити */
-#skipBtn {
-  background-color: #f39c12;
-}
-#skipBtn:hover {
-  background-color: #d35400;
-}
+#skipBtn { background-color: #f39c12; }
+#skipBtn:hover { background-color: #d35400; }
 
-/* Скинути */
-#resetBtn {
-  background-color: #e74c3c;
-}
-#resetBtn:hover {
-  background-color: #c0392b;
-}
+#resetBtn { background-color: #e74c3c; }
+#resetBtn:hover { background-color: #c0392b; }
 
-/* Перевірка знань — зелена */
-#modeBtn {
-  background-color: #27ae60;
-}
-#modeBtn:hover {
-  background-color: #1e8449;
-}
+#modeBtn { background-color: #27ae60; }
+#modeBtn:hover { background-color: #1e8449; }
 
 /* Статистика */
 .stats {
@@ -126,19 +111,31 @@ h2 {
   border-radius: 8px;
 }
 
-.stats p {
-  margin: 5px 0;
-}
+.stats p { margin: 5px 0; }
 
-/* Підсвічування правильних/неправильних */
+/* Анімації */
 .correct {
   border: 2px solid #2ecc71 !important;
   box-shadow: 0 0 10px #2ecc71;
   transform: scale(1.05);
+  animation: pop 0.3s ease;
 }
 
 .wrong {
   border: 2px solid #e74c3c !important;
   box-shadow: 0 0 10px #e74c3c;
   transform: scale(1.05);
+  animation: shake 0.3s ease;
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1.05); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }
