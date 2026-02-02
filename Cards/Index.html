@@ -3,30 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <title>Flashcards Quiz</title>
-  <!-- Підключення зовнішнього CSS -->
   <link rel="stylesheet" href="style.css">
-  <!-- Підключення JS з defer -->
   <script src="script.js" defer></script>
 </head>
 <body>
   <div class="container">
     <h2 id="word"></h2>
 
-    <!-- Прогрес-бар -->
     <div class="progress-container">
       <div id="progress-bar"></div>
     </div>
     <p id="progress-text"></p>
 
-    <!-- Варіанти відповіді -->
     <div id="options"></div>
 
-    <!-- Кнопки -->
     <button id="skipBtn">Пропустити</button>
     <button id="resetBtn">Скинути результати</button>
     <button id="modeBtn">Перевірка знань</button>
 
-    <!-- Статистика -->
     <div class="stats">
       <p>✅ Правильних відповідей: <span id="score">0</span></p>
       <p>📊 Всього спроб: <span id="attempts">0</span></p>
@@ -34,7 +28,6 @@
       <p>🎯 Успішність: <span id="accuracy">0%</span></p>
     </div>
 
-    <!-- Результат тесту -->
     <div id="testResult" style="margin-top:20px; font-weight:bold;"></div>
   </div>
 </body>
