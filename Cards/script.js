@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let testIndex = 0;
   let testScore = 0;
   let timer;
-  let timeLeft = 20; // ⏱ тепер 20 секунд
+  let timeLeft = 25; // ⏱ тепер 20 секунд
 
   // Завантаження слів
   fetch("words.json")
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startTimer() {
     clearInterval(timer);
-    timeLeft = 20; // ⏱ тепер 20 секунд
+    timeLeft = 25; // ⏱ тепер 20 секунд
     document.getElementById("timer").textContent = `⏳ ${timeLeft} сек`;
     timer = setInterval(() => {
       timeLeft--;
@@ -177,3 +177,4 @@ document.addEventListener("DOMContentLoaded", () => {
     updateProgress();
   }
 });
+
