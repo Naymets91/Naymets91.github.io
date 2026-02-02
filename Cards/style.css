@@ -15,7 +15,7 @@ body {
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   text-align: center;
-  width: 420px;
+  width: 460px;
 }
 
 h2 {
@@ -41,6 +41,12 @@ h2 {
   transition: width 0.4s ease;
 }
 
+#progress-text {
+  margin: 5px 0;
+  font-weight: bold;
+  color: #333;
+}
+
 /* Варіанти */
 #options {
   display: grid;
@@ -50,7 +56,7 @@ h2 {
   margin-bottom: 15px;
 }
 
-#options button {
+.option-btn {
   width: 100%;
   max-width: 180px;
   padding: 12px 20px;
@@ -63,13 +69,20 @@ h2 {
   color: white;
 }
 
-#options button:hover {
+.option-btn:hover {
   background-color: #2980b9;
 }
 
-/* Кнопки */
-#skipBtn, #resetBtn {
-  margin-top: 10px;
+/* Блок кнопок */
+.buttons-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+#skipBtn, #resetBtn, #modeBtn {
+  flex: 1;
   padding: 12px 20px;
   font-size: 16px;
   border-radius: 8px;
@@ -79,6 +92,7 @@ h2 {
   transition: 0.3s;
 }
 
+/* Пропустити */
 #skipBtn {
   background-color: #f39c12;
 }
@@ -86,11 +100,20 @@ h2 {
   background-color: #d35400;
 }
 
+/* Скинути */
 #resetBtn {
   background-color: #e74c3c;
 }
 #resetBtn:hover {
   background-color: #c0392b;
+}
+
+/* Перевірка знань — зелена */
+#modeBtn {
+  background-color: #27ae60;
+}
+#modeBtn:hover {
+  background-color: #1e8449;
 }
 
 /* Статистика */
