@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let timer;
   let timeLeft = 10;
 
+  // Завантаження слів
   fetch("words.json")
     .then(res => res.json())
     .then(data => {
@@ -65,3 +66,99 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       word = testWords[testIndex];
+    }
+
+    document.getElementById("word").textContent = word.en;
+
+    let options = [word.ua];
+    while (options.length < 4) {
+      let random = words[Math.floor(Math.random() * words.length)].ua;
+      if (!options.includes(random)) options.push(random);
+    }
+    options = options.sort(() => Math.random() - 0.5);
+
+    const div = document.getElementById("options");
+    div.innerHTML = "";
+    options.forEach(opt => {
+      const btn = document.createElement("button");
+      btn.textContent = opt;
+      btn.classList.add("option-btn");
+      btn.onclick = () => {
+        clearInterval(timer);
+        attempts++;
+        if (mode === "normal") currentIndex++;
+        if (opt === word.ua) {
+          score++;
+          btn.classList.add("correct");
+          if (mode === "test") testScore += 5;
+        } else {
+          btn.classList.add("wrong");
+          [...div.children].forEach(b => {
+            if (b.textContent === word.ua) {
+              b.classList.add("correct");
+            }
+          });
+        }
+        updateStats();
+        updateProgress();
+        if (mode === "normal") {
+          setTimeout(newQuestion, 1200);
+        } else {
+          testIndex++;
+          setTimeout(newQuestion, 1200);
+        }
+      };
+      div.appendChild(btn);
+    });
+
+    startTimer();
+
+    document.getElementById("skipBtn").onclick = () => {
+      clearInterval(timer);
+      skipped++;
+      attempts++;
+      if (mode === "normal") currentIndex++;
+      else testIndex++;
+      updateStats();
+      updateProgress();
+      newQuestion();
+    };
+
+    document.getElementById("resetBtn").onclick = () => {
+      score = 0;
+      attempts = 0;
+      skipped = 0;
+      currentIndex = 0;
+      updateStats();
+      updateProgress();
+      newQuestion();
+    };
+
+    document.getElementById("modeBtn").onclick = () => {
+      startTest();
+    };
+  }
+
+  function startTest() {
+    mode = "test";
+    testWords = [...words].sort(() => Math.random() - 0.5).slice(0, 20);
+    testIndex = 0;
+    testScore = 0;
+    document.getElementById("summary").style.display = "none";
+    updateProgress();
+    newQuestion();
+  }
+
+  function finishTest() {
+    document.getElementById("summary").style.display = "block";
+    document.getElementById("sumCorrect").textContent = score;
+    document.getElementById("sumWrong").textContent = attempts - score - skipped;
+    document.getElementById("sumSkipped").textContent = skipped;
+    document.getElementById("sumAccuracy").textContent =
+      attempts > 0 ? Math.round((score / attempts) * 100) + "%" : "0%";
+    document.getElementById("sumScore").textContent = testScore + "/100";
+    mode = "normal";
+    currentIndex = 0;
+    updateProgress();
+  }
+});
