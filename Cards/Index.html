@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Flashcards Quiz</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    button { margin: 5px; padding: 10px 20px; font-size: 16px; }
+    #skipBtn { background-color: #f0ad4e; color: white; border: none; }
+  </style>
+</head>
+<body>
+  <h2 id="word"></h2>
+  <div id="options"></div>
+  <button id="skipBtn">Пропустити</button>
+  <p>Правильних відповідей: <span id="score">0</span></p>
+  <p>Всього спроб: <span id="attempts">0</span></p>
+  <p>Пропущено: <span id="skipped">0</span></p>
+  <p>Успішність: <span id="accuracy">0%</span></p>
+
+  <script>
+    let words = [];
+    let score = 0;
+    let attempts = 0;
+    let skipped = 0;
+
+    // Завантажуємо статистику з LocalStorage
+    if (localStorage.getItem("quizStats")) {
+      const stats = JSON.parse(localStorage.getItem("quizStats"));
+      score = stats.score;
+      attempts = stats.attempts;
+      skipped = stats.skipped;
+      updateStats();
+    }
+
+    // Завантажуємо слова з JSON
+    fetch("words.json")
+      .then(res => res.json())
+      .then(data => {
+        words = data;
+        newQuestion();
+      });
+
+    function saveStats() {
+      const stats = { score, attempts, skipped };
+      localStorage.setItem("quizStats", JSON.stringify(stats));
+    }
+
+    function updateStats() {
+      document.getElementById("score").textContent = score;
+      document.getElementById("attempts").textContent = attempts;
+      document.getElementById("skipped").textContent = skipped;
+      let accuracy = attempts > 0 ? Math.round((score / attempts) * 100) : 0;
+      document.getElementById("accuracy").textContent = accuracy + "%";
+      saveStats();
+    }
+
+    function newQuestion() {
+      const word = words[Math.floor(Math.random() * words.length)];
+      document.getElementById("word").textContent = word.en;
+
+      // створюємо варіанти
+      let options = [word.ua];
+      while (options.length < 4) {
+        let random = words[Math.floor(Math.random() * words.length)].ua;
+        if (!options.includes(random)) options.push(random);
+      }
+      options = options.sort(() => Math.random() - 0.5);
+
+      // показуємо кнопки
+      const div = document.getElementById("options");
+      div.innerHTML = "";
+      options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => {
+          attempts++;
+          if (opt === word.ua) {
+            score++;
+          }
+          updateStats();
+          newQuestion();
+        };
+        div.appendChild(btn);
+      });
+
+      // кнопка пропуску
+      document.getElementById("skipBtn").onclick = () => {
+        skipped++;
+        attempts++;
+        updateStats();
+        newQuestion();
+      };
+    }
+  </script>
+</body>
+</html>
