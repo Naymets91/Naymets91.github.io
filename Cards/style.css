@@ -15,7 +15,7 @@ body {
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   text-align: center;
-  width: 460px;
+  width: 480px;
 }
 
 h2 {
@@ -47,7 +47,7 @@ h2 {
   color: #333;
 }
 
-/* Варіанти */
+/* Варіанти відповіді */
 #options {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -65,7 +65,7 @@ h2 {
   border: 2px solid transparent;
   cursor: pointer;
   transition: all 0.4s ease;
-  background-color: #3498db;
+  background-color: #3498db; /* синя */
   color: white;
 }
 
@@ -73,7 +73,7 @@ h2 {
   background-color: #2980b9;
 }
 
-/* Блок кнопок */
+/* Блок службових кнопок */
 .buttons-row {
   display: flex;
   justify-content: space-between;
@@ -130,7 +130,7 @@ h2 {
   margin: 5px 0;
 }
 
-/* Підсвічування */
+/* Підсвічування правильних/неправильних */
 .correct {
   border: 2px solid #2ecc71 !important;
   box-shadow: 0 0 10px #2ecc71;
