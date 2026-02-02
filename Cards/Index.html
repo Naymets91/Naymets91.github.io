@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Flashcards Quiz</title>
-  <!-- Підключення стилів -->
   <link rel="stylesheet" href="style.css">
-  <!-- Підключення скрипта -->
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -18,6 +16,9 @@
     </div>
     <p id="progress-text"></p>
 
+    <!-- Таймер -->
+    <p id="timer"></p>
+
     <!-- Варіанти відповіді -->
     <div id="options"></div>
 
@@ -25,19 +26,28 @@
     <div class="buttons-row">
       <button id="skipBtn">Пропустити</button>
       <button id="resetBtn">Скинути</button>
-      <button id="modeBtn">Перевірка</button>
+      <button id="modeBtn">Перевірка знань</button>
     </div>
 
     <!-- Статистика -->
     <div class="stats">
-      <p>✅ Правильних відповідей: <span id="score">0</span></p>
+      <p>✅ Правильних: <span id="score">0</span></p>
       <p>📊 Всього спроб: <span id="attempts">0</span></p>
       <p>⏭️ Пропущено: <span id="skipped">0</span></p>
       <p>🎯 Успішність: <span id="accuracy">0%</span></p>
     </div>
 
-    <!-- Результат тесту -->
-    <div id="testResult" style="margin-top:20px; font-weight:bold;"></div>
+    <!-- Підсумкова таблиця -->
+    <div id="summary" style="display:none; margin-top:20px;">
+      <h3>Підсумки тесту</h3>
+      <table>
+        <tr><td>✅ Правильні:</td><td id="sumCorrect"></td></tr>
+        <tr><td>❌ Неправильні:</td><td id="sumWrong"></td></tr>
+        <tr><td>⏭️ Пропущені:</td><td id="sumSkipped"></td></tr>
+        <tr><td>📊 Успішність:</td><td id="sumAccuracy"></td></tr>
+        <tr><td>🎯 Бал:</td><td id="sumScore"></td></tr>
+      </table>
+    </div>
   </div>
 </body>
 </html>
