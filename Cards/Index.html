@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Flashcards Quiz</title>
+  <!-- Підключення стилів -->
   <link rel="stylesheet" href="style.css">
+  <!-- Підключення скрипта -->
+  <script src="script.js" defer></script>
 </head>
 <body>
   <div class="container">
@@ -18,14 +21,12 @@
     <!-- Варіанти відповіді -->
     <div id="options"></div>
 
-    <!-- Кнопки -->
-<div class="buttons-row">
-  <button id="skipBtn">Пропустити</button>
-  <button id="resetBtn">Скинути</button>
-  <button id="modeBtn">Перевірка</button>
-</div>
-
-
+    <!-- Кнопки управління -->
+    <div class="buttons-row">
+      <button id="skipBtn">Пропустити</button>
+      <button id="resetBtn">Скинути результати</button>
+      <button id="modeBtn">Перевірка знань</button>
+    </div>
 
     <!-- Статистика -->
     <div class="stats">
@@ -38,8 +39,5 @@
     <!-- Результат тесту -->
     <div id="testResult" style="margin-top:20px; font-weight:bold;"></div>
   </div>
-
-  <!-- Підключення JS -->
-  <script src="script.js"></script>
 </body>
 </html>
