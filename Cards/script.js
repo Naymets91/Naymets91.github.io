@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let testIndex = 0;
   let testScore = 0;
   let timer;
-  let timeLeft = 10;
+  let timeLeft = 15;
 
   // Завантаження слів
   fetch("words.json")
@@ -162,3 +162,4 @@ document.addEventListener("DOMContentLoaded", () => {
     updateProgress();
   }
 });
+
