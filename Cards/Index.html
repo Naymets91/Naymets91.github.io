@@ -3,211 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <title>Flashcards Quiz</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .container {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      text-align: center;
-      width: 420px;
-    }
-
-    h2 {
-      font-size: 28px;
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    #options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 12px;
-      justify-items: center;
-      margin-bottom: 15px;
-    }
-
-    #options button {
-      width: 100%;
-      max-width: 180px;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 2px solid transparent;
-      cursor: pointer;
-      transition: all 0.4s ease;
-      background-color: #3498db;
-      color: white;
-    }
-
-    #options button:hover {
-      background-color: #2980b9;
-    }
-
-    #skipBtn, #resetBtn {
-      margin-top: 10px;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      color: white;
-      transition: 0.3s;
-    }
-
-    #skipBtn {
-      background-color: #f39c12;
-    }
-    #skipBtn:hover {
-      background-color: #d35400;
-    }
-
-    #resetBtn {
-      background-color: #e74c3c;
-    }
-    #resetBtn:hover {
-      background-color: #c0392b;
-    }
-
-    .stats {
-      margin-top: 20px;
-      text-align: left;
-      font-size: 16px;
-      background: #f7f7f7;
-      padding: 15px;
-      border-radius: 8px;
-    }
-
-    .stats p {
-      margin: 5px 0;
-    }
-
-    .correct {
-      border: 2px solid #2ecc71 !important;
-      box-shadow: 0 0 10px #2ecc71;
-      transform: scale(1.05);
-    }
-
-    .wrong {
-      border: 2px solid #e74c3c !important;
-      box-shadow: 0 0 10px #e74c3c;
-      transform: scale(1.05);
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
     <h2 id="word"></h2>
+
+    <!-- Прогрес-бар -->
+    <div class="progress-container">
+      <div id="progress-bar"></div>
+    </div>
+    <p id="progress-text"></p>
+
+    <!-- Варіанти відповіді -->
     <div id="options"></div>
+
+    <!-- Кнопки -->
     <button id="skipBtn">Пропустити</button>
     <button id="resetBtn">Скинути результати</button>
+    <button id="modeBtn">Перевірка знань</button>
 
+    <!-- Статистика -->
     <div class="stats">
       <p>✅ Правильних відповідей: <span id="score">0</span></p>
       <p>📊 Всього спроб: <span id="attempts">0</span></p>
       <p>⏭️ Пропущено: <span id="skipped">0</span></p>
       <p>🎯 Успішність: <span id="accuracy">0%</span></p>
     </div>
+
+    <!-- Результат тесту -->
+    <div id="testResult" style="margin-top:20px; font-weight:bold;"></div>
   </div>
 
-  <script>
-    let words = [];
-    let score = 0;
-    let attempts = 0;
-    let skipped = 0;
-
-    // Завантажуємо статистику з LocalStorage
-    if (localStorage.getItem("quizStats")) {
-      const stats = JSON.parse(localStorage.getItem("quizStats"));
-      score = stats.score;
-      attempts = stats.attempts;
-      skipped = stats.skipped;
-      updateStats();
-    }
-
-    // Завантажуємо слова з JSON
-    fetch("words.json")
-      .then(res => res.json())
-      .then(data => {
-        words = data;
-        newQuestion();
-      });
-
-    function saveStats() {
-      const stats = { score, attempts, skipped };
-      localStorage.setItem("quizStats", JSON.stringify(stats));
-    }
-
-    function updateStats() {
-      document.getElementById("score").textContent = score;
-      document.getElementById("attempts").textContent = attempts;
-      document.getElementById("skipped").textContent = skipped;
-      let accuracy = attempts > 0 ? Math.round((score / attempts) * 100) : 0;
-      document.getElementById("accuracy").textContent = accuracy + "%";
-      saveStats();
-    }
-
-    function newQuestion() {
-      const word = words[Math.floor(Math.random() * words.length)];
-      document.getElementById("word").textContent = word.en;
-
-      let options = [word.ua];
-      while (options.length < 4) {
-        let random = words[Math.floor(Math.random() * words.length)].ua;
-        if (!options.includes(random)) options.push(random);
-      }
-      options = options.sort(() => Math.random() - 0.5);
-
-      const div = document.getElementById("options");
-      div.innerHTML = "";
-      options.forEach(opt => {
-        const btn = document.createElement("button");
-        btn.textContent = opt;
-        btn.onclick = () => {
-          attempts++;
-          if (opt === word.ua) {
-            score++;
-            btn.classList.add("correct");
-          } else {
-            btn.classList.add("wrong");
-            [...div.children].forEach(b => {
-              if (b.textContent === word.ua) {
-                b.classList.add("correct");
-              }
-            });
-          }
-          updateStats();
-          setTimeout(newQuestion, 1200);
-        };
-        div.appendChild(btn);
-      });
-
-      document.getElementById("skipBtn").onclick = () => {
-        skipped++;
-        attempts++;
-        updateStats();
-        newQuestion();
-      };
-
-      document.getElementById("resetBtn").onclick = () => {
-        score = 0;
-        attempts = 0;
-        skipped = 0;
-        localStorage.removeItem("quizStats");
-        updateStats();
-      };
-    }
-  </script>
+  <!-- Підключення JS -->
+  <script src="script.js"></script>
 </body>
 </html>
