@@ -21,7 +21,7 @@
       border-radius: 12px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
       text-align: center;
-      width: 400px;
+      width: 420px;
     }
 
     h2 {
@@ -30,8 +30,17 @@
       color: #333;
     }
 
+    #options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 12px;
+      justify-items: center;
+      margin-bottom: 15px;
+    }
+
     #options button {
-      margin: 8px;
+      width: 100%;
+      max-width: 180px;
       padding: 12px 20px;
       font-size: 16px;
       border-radius: 8px;
@@ -46,20 +55,29 @@
       background-color: #2980b9;
     }
 
-    #skipBtn {
+    #skipBtn, #resetBtn {
       margin-top: 10px;
       padding: 12px 20px;
       font-size: 16px;
       border-radius: 8px;
       border: none;
       cursor: pointer;
-      background-color: #f39c12;
       color: white;
       transition: 0.3s;
     }
 
+    #skipBtn {
+      background-color: #f39c12;
+    }
     #skipBtn:hover {
       background-color: #d35400;
+    }
+
+    #resetBtn {
+      background-color: #e74c3c;
+    }
+    #resetBtn:hover {
+      background-color: #c0392b;
     }
 
     .stats {
@@ -93,6 +111,7 @@
     <h2 id="word"></h2>
     <div id="options"></div>
     <button id="skipBtn">Пропустити</button>
+    <button id="resetBtn">Скинути результати</button>
 
     <div class="stats">
       <p>✅ Правильних відповідей: <span id="score">0</span></p>
@@ -143,7 +162,6 @@
       const word = words[Math.floor(Math.random() * words.length)];
       document.getElementById("word").textContent = word.en;
 
-      // створюємо варіанти
       let options = [word.ua];
       while (options.length < 4) {
         let random = words[Math.floor(Math.random() * words.length)].ua;
@@ -151,7 +169,6 @@
       }
       options = options.sort(() => Math.random() - 0.5);
 
-      // показуємо кнопки
       const div = document.getElementById("options");
       div.innerHTML = "";
       options.forEach(opt => {
@@ -164,7 +181,6 @@
             btn.classList.add("correct");
           } else {
             btn.classList.add("wrong");
-            // підсвічуємо правильну відповідь
             [...div.children].forEach(b => {
               if (b.textContent === word.ua) {
                 b.classList.add("correct");
@@ -172,18 +188,24 @@
             });
           }
           updateStats();
-          // невелика пауза перед наступним питанням
           setTimeout(newQuestion, 1200);
         };
         div.appendChild(btn);
       });
 
-      // кнопка пропуску
       document.getElementById("skipBtn").onclick = () => {
         skipped++;
         attempts++;
         updateStats();
         newQuestion();
+      };
+
+      document.getElementById("resetBtn").onclick = () => {
+        score = 0;
+        attempts = 0;
+        skipped = 0;
+        localStorage.removeItem("quizStats");
+        updateStats();
       };
     }
   </script>
