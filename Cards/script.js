@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let testIndex = 0;
   let testScore = 0;
   let timer;
-  let timeLeft = 20;
+  let timeLeft = 20; // 
 
   // Завантаження слів
   fetch("words.json")
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startTimer() {
     clearInterval(timer);
-    timeLeft = 10;
+    timeLeft = 20; // ⏱ тепер 20 секунд
     document.getElementById("timer").textContent = `⏳ ${timeLeft} сек`;
     timer = setInterval(() => {
       timeLeft--;
@@ -87,6 +87,10 @@ document.addEventListener("DOMContentLoaded", () => {
         clearInterval(timer);
         attempts++;
         if (mode === "normal") currentIndex++;
+
+        // 🔒 Вимикаємо всі кнопки після вибору
+        [...div.children].forEach(b => b.disabled = true);
+
         if (opt === word.ua) {
           score++;
           btn.classList.add("correct");
@@ -99,8 +103,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           });
         }
+
         updateStats();
         updateProgress();
+
         if (mode === "normal") {
           setTimeout(newQuestion, 1200);
         } else {
@@ -135,6 +141,15 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     document.getElementById("modeBtn").onclick = () => {
+      // 🔄 очищаємо все як при "Скинути"
+      score = 0;
+      attempts = 0;
+      skipped = 0;
+      currentIndex = 0;
+      updateStats();
+      updateProgress();
+
+      // ▶️ запускаємо тест
       startTest();
     };
   }
@@ -162,5 +177,3 @@ document.addEventListener("DOMContentLoaded", () => {
     updateProgress();
   }
 });
-
-
