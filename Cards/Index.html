@@ -4,19 +4,103 @@
   <meta charset="UTF-8">
   <title>Flashcards Quiz</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-    button { margin: 5px; padding: 10px 20px; font-size: 16px; }
-    #skipBtn { background-color: #f0ad4e; color: white; border: none; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 400px;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    #options button {
+      margin: 8px;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      background-color: #3498db;
+      color: white;
+    }
+
+    #options button:hover {
+      background-color: #2980b9;
+    }
+
+    #skipBtn {
+      margin-top: 10px;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background-color: #f39c12;
+      color: white;
+      transition: 0.3s;
+    }
+
+    #skipBtn:hover {
+      background-color: #d35400;
+    }
+
+    .stats {
+      margin-top: 20px;
+      text-align: left;
+      font-size: 16px;
+      background: #f7f7f7;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .stats p {
+      margin: 5px 0;
+    }
+
+    .correct {
+      border: 2px solid #2ecc71 !important;
+      box-shadow: 0 0 10px #2ecc71;
+      transform: scale(1.05);
+    }
+
+    .wrong {
+      border: 2px solid #e74c3c !important;
+      box-shadow: 0 0 10px #e74c3c;
+      transform: scale(1.05);
+    }
   </style>
 </head>
 <body>
-  <h2 id="word"></h2>
-  <div id="options"></div>
-  <button id="skipBtn">Пропустити</button>
-  <p>Правильних відповідей: <span id="score">0</span></p>
-  <p>Всього спроб: <span id="attempts">0</span></p>
-  <p>Пропущено: <span id="skipped">0</span></p>
-  <p>Успішність: <span id="accuracy">0%</span></p>
+  <div class="container">
+    <h2 id="word"></h2>
+    <div id="options"></div>
+    <button id="skipBtn">Пропустити</button>
+
+    <div class="stats">
+      <p>✅ Правильних відповідей: <span id="score">0</span></p>
+      <p>📊 Всього спроб: <span id="attempts">0</span></p>
+      <p>⏭️ Пропущено: <span id="skipped">0</span></p>
+      <p>🎯 Успішність: <span id="accuracy">0%</span></p>
+    </div>
+  </div>
 
   <script>
     let words = [];
@@ -77,9 +161,19 @@
           attempts++;
           if (opt === word.ua) {
             score++;
+            btn.classList.add("correct");
+          } else {
+            btn.classList.add("wrong");
+            // підсвічуємо правильну відповідь
+            [...div.children].forEach(b => {
+              if (b.textContent === word.ua) {
+                b.classList.add("correct");
+              }
+            });
           }
           updateStats();
-          newQuestion();
+          // невелика пауза перед наступним питанням
+          setTimeout(newQuestion, 1200);
         };
         div.appendChild(btn);
       });
