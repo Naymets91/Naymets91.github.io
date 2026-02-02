@@ -76,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
     options.forEach(opt => {
       const btn = document.createElement("button");
       btn.textContent = opt;
+      btn.classList.add("option-btn"); // додаємо клас для стилів
       btn.onclick = () => {
         attempts++;
         if (mode === "normal") currentIndex++;
