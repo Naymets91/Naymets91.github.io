@@ -11,10 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let timer;
   let timeLeft = 25;
 
-  // -------------------------------
-  // ВИБІР ФАЙЛУ СЛІВ
-  // -------------------------------
-
   let selectedFile = localStorage.getItem("wordSet") || "words.json";
   document.getElementById("wordSet").value = selectedFile;
 
@@ -24,14 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
       .then(data => {
         words = data;
         loadProgress();
-        updateProgress();   // ← ВАЖЛИВО! Виправляє 0/0 при старті
+        updateProgress();   // ← Виправляє 0/0 при старті
         newQuestion();
       });
   }
-
-  // -------------------------------
-  // LOCAL STORAGE
-  // -------------------------------
 
   function saveProgress() {
     localStorage.setItem("progress", JSON.stringify({
@@ -47,8 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function loadProgress() {
     const saved = JSON.parse(localStorage.getItem("progress"));
     if (!saved) return;
-
-    if (saved.selectedFile && saved.selectedFile !== selectedFile) return;
+    if (saved.selectedFile !== selectedFile) return;
 
     score = saved.score ?? 0;
     attempts = saved.attempts ?? 0;
@@ -63,15 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.removeItem("progress");
   }
 
-  // -------------------------------
-  // ЗАВАНТАЖЕННЯ СЛІВ
-  // -------------------------------
-
   loadWords();
-
-  // -------------------------------
-  // ОНОВЛЕННЯ ІНТЕРФЕЙСУ
-  // -------------------------------
 
   function updateStats() {
     document.getElementById("score").textContent = score;
@@ -88,10 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("progress-bar").style.width = percent + "%";
     document.getElementById("progress-text").textContent = `${done}/${total}`;
   }
-
-  // -------------------------------
-  // ТАЙМЕР
-  // -------------------------------
 
   function startTimer() {
     clearInterval(timer);
@@ -110,15 +89,10 @@ document.addEventListener("DOMContentLoaded", () => {
         updateStats();
         updateProgress();
         saveProgress();
-
         newQuestion();
       }
     }, 1000);
   }
-
-  // -------------------------------
-  // НОВЕ ПИТАННЯ
-  // -------------------------------
 
   function newQuestion() {
     clearInterval(timer);
@@ -163,9 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           btn.classList.add("wrong");
           [...div.children].forEach(b => {
-            if (b.textContent === word.ua) {
-              b.classList.add("correct");
-            }
+            if (b.textContent === word.ua) b.classList.add("correct");
           });
         }
 
@@ -186,10 +158,6 @@ document.addEventListener("DOMContentLoaded", () => {
     startTimer();
   }
 
-  // -------------------------------
-  // КНОПКИ
-  // -------------------------------
-
   document.getElementById("skipBtn").onclick = () => {
     clearInterval(timer);
     skipped++;
@@ -200,7 +168,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateStats();
     updateProgress();
     saveProgress();
-
     newQuestion();
   };
 
@@ -225,13 +192,8 @@ document.addEventListener("DOMContentLoaded", () => {
     clearProgress();
     updateStats();
     updateProgress();
-
     startTest();
   };
-
-  // -------------------------------
-  // ТЕСТ
-  // -------------------------------
 
   function startTest() {
     mode = "test";
@@ -258,10 +220,6 @@ document.addEventListener("DOMContentLoaded", () => {
     clearProgress();
     updateProgress();
   }
-
-  // -------------------------------
-  // ЗМІНА СЛОВНИКА
-  // -------------------------------
 
   document.getElementById("wordSet").onchange = (e) => {
     selectedFile = e.target.value;
