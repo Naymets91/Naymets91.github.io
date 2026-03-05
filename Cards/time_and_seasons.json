@@ -36,5 +36,92 @@
   { "en": "in the afternoon", "ua": "в обід / після обіду" },
   { "en": "at noon", "ua": "опівдні" },
   { "en": "in the evening", "ua": "ввечері" },
-  { "en": "at night", "ua": "вночі" }
+  { "en": "at night", "ua": "вночі" },
+
+  { "en": "today", "ua": "сьогодні" },
+  { "en": "yesterday", "ua": "вчора" },
+  { "en": "tomorrow", "ua": "завтра" },
+  { "en": "the day after tomorrow", "ua": "післязавтра" },
+  { "en": "the day before yesterday", "ua": "позавчора" },
+
+  { "en": "this morning", "ua": "сьогодні вранці" },
+  { "en": "this afternoon", "ua": "сьогодні вдень" },
+  { "en": "this evening", "ua": "сьогодні ввечері" },
+  { "en": "tonight", "ua": "сьогодні вночі" },
+
+  { "en": "last week", "ua": "минулого тижня" },
+  { "en": "next week", "ua": "наступного тижня" },
+  { "en": "last month", "ua": "минулого місяця" },
+  { "en": "next month", "ua": "наступного місяця" },
+  { "en": "last year", "ua": "минулого року" },
+  { "en": "next year", "ua": "наступного року" },
+
+  { "en": "every day", "ua": "кожного дня" },
+  { "en": "every week", "ua": "кожного тижня" },
+  { "en": "every month", "ua": "кожного місяця" },
+  { "en": "every year", "ua": "кожного року" },
+
+  { "en": "once a day", "ua": "раз на день" },
+  { "en": "twice a day", "ua": "двічі на день" },
+  { "en": "three times a day", "ua": "тричі на день" },
+  { "en": "once a week", "ua": "раз на тиждень" },
+  { "en": "twice a week", "ua": "двічі на тиждень" },
+
+  { "en": "always", "ua": "завжди" },
+  { "en": "usually", "ua": "зазвичай" },
+  { "en": "often", "ua": "часто" },
+  { "en": "sometimes", "ua": "іноді" },
+  { "en": "rarely", "ua": "рідко" },
+  { "en": "never", "ua": "ніколи" },
+
+  { "en": "early", "ua": "рано" },
+  { "en": "late", "ua": "пізно" },
+  { "en": "soon", "ua": "скоро" },
+  { "en": "already", "ua": "вже" },
+  { "en": "still", "ua": "ще" },
+  { "en": "yet", "ua": "ще (в запереченнях/питаннях)" },
+
+  { "en": "before", "ua": "до" },
+  { "en": "after", "ua": "після" },
+  { "en": "during", "ua": "під час" },
+  { "en": "until", "ua": "до (в часі)" },
+  { "en": "since", "ua": "з (моменту)" },
+  { "en": "for", "ua": "протягом" },
+
+  { "en": "hour", "ua": "година" },
+  { "en": "minute", "ua": "хвилина" },
+  { "en": "second", "ua": "секунда" },
+  { "en": "week", "ua": "тиждень" },
+  { "en": "month", "ua": "місяць" },
+  { "en": "year", "ua": "рік" },
+  { "en": "decade", "ua": "десятиліття" },
+  { "en": "century", "ua": "століття" },
+
+  { "en": "in an hour", "ua": "через годину" },
+  { "en": "in a minute", "ua": "через хвилину" },
+  { "en": "in a week", "ua": "через тиждень" },
+  { "en": "in a month", "ua": "через місяць" },
+  { "en": "in a year", "ua": "через рік" },
+
+  { "en": "half an hour", "ua": "пів години" },
+  { "en": "quarter of an hour", "ua": "чверть години" },
+
+  { "en": "at the weekend", "ua": "на вихідних" },
+  { "en": "on Monday morning", "ua": "у понеділок вранці" },
+  { "en": "on Friday evening", "ua": "у пʼятницю ввечері" },
+  { "en": "this week", "ua": "цього тижня" },
+  { "en": "next morning", "ua": "наступного ранку" },
+  { "en": "next evening", "ua": "наступного вечора" },
+
+  { "en": "from Monday to Friday", "ua": "з понеділка по пʼятницю" },
+  { "en": "all day", "ua": "весь день" },
+  { "en": "all night", "ua": "всю ніч" },
+  { "en": "all week", "ua": "весь тиждень" },
+
+  { "en": "at the same time", "ua": "в той самий час" },
+  { "en": "on time", "ua": "вчасно" },
+  { "en": "in time", "ua": "встигнути" },
+  { "en": "just now", "ua": "щойно" },
+  { "en": "right now", "ua": "прямо зараз" },
+  { "en": "later", "ua": "пізніше" }
 ]
