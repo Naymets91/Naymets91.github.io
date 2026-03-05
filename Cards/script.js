@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .then(data => {
         words = data;
         loadProgress();
+        updateProgress();   // ← ВАЖЛИВО! Виправляє 0/0 при старті
         newQuestion();
       });
   }
@@ -47,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const saved = JSON.parse(localStorage.getItem("progress"));
     if (!saved) return;
 
-    // Відновлюємо тільки якщо словник той самий
     if (saved.selectedFile && saved.selectedFile !== selectedFile) return;
 
     score = saved.score ?? 0;
@@ -57,7 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
     mode = saved.mode ?? "normal";
 
     updateStats();
-    updateProgress();
   }
 
   function clearProgress() {
