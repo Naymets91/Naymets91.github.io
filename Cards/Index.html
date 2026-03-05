@@ -23,7 +23,7 @@
       <div id="progress-bar"></div>
     </div>
 
-    <!-- Лічильник слів + таймер в одному рядку -->
+    <!-- Лічильник слів + таймер -->
     <div class="top-info">
       <span id="progress-text">0/0</span>
       <span id="timer">⏳ 25 сек</span>
@@ -39,7 +39,7 @@
     <div class="buttons-row">
       <button id="skipBtn">⏭ Пропустити</button>
       <button id="resetBtn">🔄 Скинути</button>
-      <button id="modeBtn">🧪 Тест</button>
+      <button id="modeBtn">🧪 Тест (20 слів)</button>
     </div>
 
     <!-- Статистика -->
@@ -48,4 +48,20 @@
       <p>❌ Спроб: <span id="attempts">0</span></p>
       <p>⏭ Пропущено: <span id="skipped">0</span></p>
       <p>🎯 Точність: <span id="accuracy">0%</span></p>
-   
+    </div>
+
+    <!-- Підсумок тесту -->
+    <div id="summary" style="display:none;">
+      <h2>Результати тесту</h2>
+      <p>✔ Вірних: <span id="sumCorrect">0</span></p>
+      <p>❌ Невірних: <span id="sumWrong">0</span></p>
+      <p>⏭ Пропущено: <span id="sumSkipped">0</span></p>
+      <p>🎯 Точність: <span id="sumAccuracy">0%</span></p>
+      <p>⭐ Балів: <span id="sumScore">0</span></p>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
