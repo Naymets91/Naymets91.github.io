@@ -14,15 +14,18 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedFile = localStorage.getItem("wordSet") || "words.json";
   document.getElementById("wordSet").value = selectedFile;
 
-  function loadWords() {
-    fetch(selectedFile)
-      .then(res => res.json())
-      .then(data => {
-        words = data;
-        loadProgress();
-        updateProgress();   // ← Виправляє 0/0 при старті
-        newQuestion();
-      });
+  async function loadWords() {
+    const res = await fetch(selectedFile);
+    const data = await res.json();
+
+    if (!Array.isArray(data) || data.length === 0) {
+      alert("У цьому наборі слів немає даних.");
+      return;
+    }
+
+    words = data;
+    loadProgress();
+    updateProgress();
   }
 
   function saveProgress() {
@@ -54,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.removeItem("progress");
   }
 
-  loadWords();
+  loadWords().then(() => newQuestion());
 
   function updateStats() {
     document.getElementById("score").textContent = score;
@@ -221,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateProgress();
   }
 
-  document.getElementById("wordSet").onchange = (e) => {
+  document.getElementById("wordSet").onchange = async (e) => {
     selectedFile = e.target.value;
     localStorage.setItem("wordSet", selectedFile);
 
@@ -233,6 +236,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateStats();
     updateProgress();
-    loadWords();
+
+    await loadWords();   // чекаємо JSON
+    newQuestion();       // запускаємо нове питання
   };
 });
