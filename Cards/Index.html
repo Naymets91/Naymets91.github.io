@@ -2,52 +2,64 @@
 <html lang="uk">
 <head>
   <meta charset="UTF-8">
-  <title>Flashcards Quiz</title>
+  <title>Word Trainer</title>
   <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
 </head>
 <body>
+
   <div class="container">
-    <h2 id="word"></h2>
 
-    <!-- Прогрес-бар -->
-    <div class="progress-container">
-      <div id="progress-bar"></div>
-    </div>
-    <p id="progress-text"></p>
+    <h1>Тренажер слів</h1>
 
-    <!-- Таймер -->
-    <p id="timer"></p>
-
-    <!-- Варіанти відповіді -->
-    <div id="options"></div>
-
-    <!-- Кнопки управління -->
-    <div class="buttons-row">
-      <button id="skipBtn">Пропустити</button>
-      <button id="resetBtn">Скинути</button>
-      <button id="modeBtn">Перевірка!!!</button>
-    </div>
+    <!-- Вибір словника -->
+    <label for="wordSet">Набір слів:</label>
+    <select id="wordSet">
+      <option value="words.json">Основні слова</option>
+      <option value="istqb.json">ISTQB терміни</option>
+    </select>
 
     <!-- Статистика -->
     <div class="stats">
-      <p>✅ Правильних: <span id="score">0</span></p>
-      <p>📊 Всього спроб: <span id="attempts">0</span></p>
-      <p>⏭️ Пропущено: <span id="skipped">0</span></p>
-      <p>🎯 Успішність: <span id="accuracy">0%</span></p>
+      <p>Вірних: <span id="score">0</span></p>
+      <p>Спроб: <span id="attempts">0</span></p>
+      <p>Пропущено: <span id="skipped">0</span></p>
+      <p>Точність: <span id="accuracy">0%</span></p>
     </div>
 
-    <!-- Підсумкова таблиця -->
-    <div id="summary" style="display:none; margin-top:20px;">
-      <h3>Підсумки тесту</h3>
-      <table>
-        <tr><td>✅ Правильні:</td><td id="sumCorrect"></td></tr>
-        <tr><td>❌ Неправильні:</td><td id="sumWrong"></td></tr>
-        <tr><td>⏭️ Пропущені:</td><td id="sumSkipped"></td></tr>
-        <tr><td>📊 Успішність:</td><td id="sumAccuracy"></td></tr>
-        <tr><td>🎯 Бал:</td><td id="sumScore"></td></tr>
-      </table>
+    <!-- Прогрес -->
+    <div class="progress">
+      <div id="progress-bar"></div>
     </div>
+    <p id="progress-text">0/0</p>
+
+    <!-- Таймер -->
+    <p id="timer">⏳ 25 сек</p>
+
+    <!-- Слово -->
+    <h2 id="word">...</h2>
+
+    <!-- Варіанти -->
+    <div id="options"></div>
+
+    <!-- Кнопки -->
+    <div class="buttons">
+      <button id="skipBtn">Пропустити</button>
+      <button id="resetBtn">Скинути</button>
+      <button id="modeBtn">Тест (20 слів)</button>
+    </div>
+
+    <!-- Підсумок тесту -->
+    <div id="summary" style="display:none;">
+      <h2>Результати тесту</h2>
+      <p>Вірних: <span id="sumCorrect">0</span></p>
+      <p>Невірних: <span id="sumWrong">0</span></p>
+      <p>Пропущено: <span id="sumSkipped">0</span></p>
+      <p>Точність: <span id="sumAccuracy">0%</span></p>
+      <p>Балів: <span id="sumScore">0</span></p>
+    </div>
+
   </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
