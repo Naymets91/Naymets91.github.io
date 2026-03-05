@@ -12,6 +12,23 @@ document.addEventListener("DOMContentLoaded", () => {
   let timeLeft = 25;
 
   // -------------------------------
+  // ВИБІР ФАЙЛУ СЛІВ
+  // -------------------------------
+
+  let selectedFile = localStorage.getItem("wordSet") || "words.json";
+  document.getElementById("wordSet").value = selectedFile;
+
+  function loadWords() {
+    fetch(selectedFile)
+      .then(res => res.json())
+      .then(data => {
+        words = data;
+        loadProgress();
+        newQuestion();
+      });
+  }
+
+  // -------------------------------
   // LOCAL STORAGE
   // -------------------------------
 
@@ -21,13 +38,17 @@ document.addEventListener("DOMContentLoaded", () => {
       attempts,
       skipped,
       currentIndex,
-      mode
+      mode,
+      selectedFile
     }));
   }
 
   function loadProgress() {
     const saved = JSON.parse(localStorage.getItem("progress"));
     if (!saved) return;
+
+    // Відновлюємо тільки якщо словник той самий
+    if (saved.selectedFile && saved.selectedFile !== selectedFile) return;
 
     score = saved.score ?? 0;
     attempts = saved.attempts ?? 0;
@@ -47,13 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ЗАВАНТАЖЕННЯ СЛІВ
   // -------------------------------
 
-  fetch("words.json")
-    .then(res => res.json())
-    .then(data => {
-      words = data;
-      loadProgress();   // ⬅️ відновлюємо прогрес
-      newQuestion();
-    });
+  loadWords();
 
   // -------------------------------
   // ОНОВЛЕННЯ ІНТЕРФЕЙСУ
@@ -173,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -------------------------------
-  // КНОПКИ (винесені з newQuestion)
+  // КНОПКИ
   // -------------------------------
 
   document.getElementById("skipBtn").onclick = () => {
@@ -244,4 +259,23 @@ document.addEventListener("DOMContentLoaded", () => {
     clearProgress();
     updateProgress();
   }
+
+  // -------------------------------
+  // ЗМІНА СЛОВНИКА
+  // -------------------------------
+
+  document.getElementById("wordSet").onchange = (e) => {
+    selectedFile = e.target.value;
+    localStorage.setItem("wordSet", selectedFile);
+
+    clearProgress();
+    score = 0;
+    attempts = 0;
+    skipped = 0;
+    currentIndex = 0;
+
+    updateStats();
+    updateProgress();
+    loadWords();
+  };
 });
