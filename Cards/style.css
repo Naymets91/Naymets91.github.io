@@ -60,8 +60,12 @@ label {
   transition: width 0.4s ease;
 }
 
-#progress-text {
-  margin: 5px 0;
+/* Лічильник слів + таймер */
+.top-info {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0 20px 0;
+  font-size: 18px;
   font-weight: bold;
   color: #333;
 }
@@ -92,9 +96,8 @@ label {
   background-color: #2980b9;
 }
 
-/* Блок службових кнопок */
-.buttons-row,
-.buttons {
+/* Кнопки */
+.buttons-row {
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -112,31 +115,16 @@ label {
   transition: 0.3s;
 }
 
-/* Пропустити */
-#skipBtn {
-  background-color: #f39c12;
-}
-#skipBtn:hover {
-  background-color: #d35400;
-}
+#skipBtn { background-color: #f39c12; }
+#skipBtn:hover { background-color: #d35400; }
 
-/* Скинути */
-#resetBtn {
-  background-color: #e74c3c;
-}
-#resetBtn:hover {
-  background-color: #c0392b;
-}
+#resetBtn { background-color: #e74c3c; }
+#resetBtn:hover { background-color: #c0392b; }
 
-/* Перевірка знань — зелена */
-#modeBtn {
-  background-color: #27ae60;
-}
-#modeBtn:hover {
-  background-color: #1e8449;
-}
+#modeBtn { background-color: #27ae60; }
+#modeBtn:hover { background-color: #1e8449; }
 
-/* Статистика — ПІД кнопками */
+/* Статистика */
 .stats {
   margin-top: 20px;
   text-align: left;
@@ -150,7 +138,7 @@ label {
   margin: 5px 0;
 }
 
-/* Підсвічування правильних/неправильних */
+/* Підсвічування */
 .correct {
   border: 2px solid #2ecc71 !important;
   box-shadow: 0 0 10px #2ecc71;
