@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let timer;
   let timeLeft = 25;
 
+  let invert = false;
+
   let selectedFile = localStorage.getItem("wordSet") || "words.json";
   document.getElementById("wordSet").value = selectedFile;
 
@@ -35,7 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
       skipped,
       currentIndex,
       mode,
-      selectedFile
+      selectedFile,
+      invert
     }));
   }
 
@@ -49,6 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
     skipped = saved.skipped ?? 0;
     currentIndex = saved.currentIndex ?? 0;
     mode = saved.mode ?? "normal";
+    invert = saved.invert ?? false;
+
+    document.getElementById("invertMode").checked = invert;
 
     updateStats();
   }
@@ -111,13 +117,18 @@ document.addEventListener("DOMContentLoaded", () => {
       word = testWords[testIndex];
     }
 
-    document.getElementById("word").textContent = word.en;
+    document.getElementById("word").textContent = invert ? word.ua : word.en;
 
-    let options = [word.ua];
+    let correct = invert ? word.en : word.ua;
+    let options = [correct];
+
     while (options.length < 4) {
-      let random = words[Math.floor(Math.random() * words.length)].ua;
+      let randomWord = words[Math.floor(Math.random() * words.length)];
+      let random = invert ? randomWord.en : randomWord.ua;
+
       if (!options.includes(random)) options.push(random);
     }
+
     options = options.sort(() => Math.random() - 0.5);
 
     const div = document.getElementById("options");
@@ -133,14 +144,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         [...div.children].forEach(b => b.disabled = true);
 
-        if (opt === word.ua) {
+        if (opt === correct) {
           score++;
           btn.classList.add("correct");
           if (mode === "test") testScore += 5;
         } else {
           btn.classList.add("wrong");
           [...div.children].forEach(b => {
-            if (b.textContent === word.ua) b.classList.add("correct");
+            if (b.textContent === correct) b.classList.add("correct");
           });
         }
 
@@ -237,7 +248,13 @@ document.addEventListener("DOMContentLoaded", () => {
     updateStats();
     updateProgress();
 
-    await loadWords();   // чекаємо JSON
-    newQuestion();       // запускаємо нове питання
+    await loadWords();
+    newQuestion();
+  };
+
+  document.getElementById("invertMode").onchange = (e) => {
+    invert = e.target.checked;
+    saveProgress();
+    newQuestion();
   };
 });
