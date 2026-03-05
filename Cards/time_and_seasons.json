@@ -1,0 +1,40 @@
+[
+  { "en": "Monday", "ua": "Понеділок" },
+  { "en": "Tuesday", "ua": "Вівторок" },
+  { "en": "Wednesday", "ua": "Середа" },
+  { "en": "Thursday", "ua": "Четвер" },
+  { "en": "Friday", "ua": "Пʼятниця" },
+  { "en": "Saturday", "ua": "Субота" },
+  { "en": "Sunday", "ua": "Неділя" },
+
+  { "en": "January", "ua": "Січень" },
+  { "en": "February", "ua": "Лютий" },
+  { "en": "March", "ua": "Березень" },
+  { "en": "April", "ua": "Квітень" },
+  { "en": "May", "ua": "Травень" },
+  { "en": "June", "ua": "Червень" },
+  { "en": "July", "ua": "Липень" },
+  { "en": "August", "ua": "Серпень" },
+  { "en": "September", "ua": "Вересень" },
+  { "en": "October", "ua": "Жовтень" },
+  { "en": "November", "ua": "Листопад" },
+  { "en": "December", "ua": "Грудень" },
+
+  { "en": "spring", "ua": "весна" },
+  { "en": "summer", "ua": "літо" },
+  { "en": "autumn", "ua": "осінь" },
+  { "en": "fall", "ua": "осінь (амер.)" },
+  { "en": "winter", "ua": "зима" },
+
+  { "en": "morning", "ua": "ранок" },
+  { "en": "afternoon", "ua": "післяобідній час" },
+  { "en": "noon", "ua": "полудень" },
+  { "en": "evening", "ua": "вечір" },
+  { "en": "night", "ua": "ніч" },
+
+  { "en": "in the morning", "ua": "вранці" },
+  { "en": "in the afternoon", "ua": "в обід / після обіду" },
+  { "en": "at noon", "ua": "опівдні" },
+  { "en": "in the evening", "ua": "ввечері" },
+  { "en": "at night", "ua": "вночі" }
+]
