@@ -11,7 +11,20 @@ document.addEventListener("DOMContentLoaded", () => {
   let timer;
   let timeLeft = 25;
 
-  // 🔄 ВІДНОВЛЕННЯ ПРОГРЕСУ
+  // -------------------------------
+  // LOCAL STORAGE
+  // -------------------------------
+
+  function saveProgress() {
+    localStorage.setItem("progress", JSON.stringify({
+      score,
+      attempts,
+      skipped,
+      currentIndex,
+      mode
+    }));
+  }
+
   function loadProgress() {
     const saved = JSON.parse(localStorage.getItem("progress"));
     if (!saved) return;
@@ -26,30 +39,25 @@ document.addEventListener("DOMContentLoaded", () => {
     updateProgress();
   }
 
-  // 💾 ЗБЕРЕЖЕННЯ ПРОГРЕСУ
-  function saveProgress() {
-    localStorage.setItem("progress", JSON.stringify({
-      score,
-      attempts,
-      skipped,
-      currentIndex,
-      mode
-    }));
-  }
-
-  // 🧹 ОЧИСТИТИ ПРОГРЕС
   function clearProgress() {
     localStorage.removeItem("progress");
   }
 
-  // Завантаження слів
+  // -------------------------------
+  // ЗАВАНТАЖЕННЯ СЛІВ
+  // -------------------------------
+
   fetch("words.json")
     .then(res => res.json())
     .then(data => {
       words = data;
-      loadProgress();   // ⬅️ відновлюємо прогрес після завантаження слів
+      loadProgress();   // ⬅️ відновлюємо прогрес
       newQuestion();
     });
+
+  // -------------------------------
+  // ОНОВЛЕННЯ ІНТЕРФЕЙСУ
+  // -------------------------------
 
   function updateStats() {
     document.getElementById("score").textContent = score;
@@ -67,6 +75,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("progress-text").textContent = `${done}/${total}`;
   }
 
+  // -------------------------------
+  // ТАЙМЕР
+  // -------------------------------
+
   function startTimer() {
     clearInterval(timer);
     timeLeft = 25;
@@ -83,17 +95,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         updateStats();
         updateProgress();
-        saveProgress();   // 💾 зберегли
+        saveProgress();
 
         newQuestion();
       }
     }, 1000);
   }
 
+  // -------------------------------
+  // НОВЕ ПИТАННЯ
+  // -------------------------------
+
   function newQuestion() {
     clearInterval(timer);
-    let word;
 
+    let word;
     if (mode === "normal") {
       word = words[Math.floor(Math.random() * words.length)];
     } else {
@@ -141,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         updateStats();
         updateProgress();
-        saveProgress();   // 💾 зберегли
+        saveProgress();
 
         if (mode === "normal") {
           setTimeout(newQuestion, 1200);
@@ -154,46 +170,54 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     startTimer();
-
-    document.getElementById("skipBtn").onclick = () => {
-      clearInterval(timer);
-      skipped++;
-      attempts++;
-      if (mode === "normal") currentIndex++;
-      else testIndex++;
-
-      updateStats();
-      updateProgress();
-      saveProgress();   // 💾 зберегли
-
-      newQuestion();
-    };
-
-    document.getElementById("resetBtn").onclick = () => {
-      score = 0;
-      attempts = 0;
-      skipped = 0;
-      currentIndex = 0;
-
-      clearProgress();  // 🧹 очищення
-      updateStats();
-      updateProgress();
-      newQuestion();
-    };
-
-    document.getElementById("modeBtn").onclick = () => {
-      score = 0;
-      attempts = 0;
-      skipped = 0;
-      currentIndex = 0;
-
-      clearProgress();  // 🧹 очищення
-      updateStats();
-      updateProgress();
-
-      startTest();
-    };
   }
+
+  // -------------------------------
+  // КНОПКИ (винесені з newQuestion)
+  // -------------------------------
+
+  document.getElementById("skipBtn").onclick = () => {
+    clearInterval(timer);
+    skipped++;
+    attempts++;
+    if (mode === "normal") currentIndex++;
+    else testIndex++;
+
+    updateStats();
+    updateProgress();
+    saveProgress();
+
+    newQuestion();
+  };
+
+  document.getElementById("resetBtn").onclick = () => {
+    score = 0;
+    attempts = 0;
+    skipped = 0;
+    currentIndex = 0;
+
+    clearProgress();
+    updateStats();
+    updateProgress();
+    newQuestion();
+  };
+
+  document.getElementById("modeBtn").onclick = () => {
+    score = 0;
+    attempts = 0;
+    skipped = 0;
+    currentIndex = 0;
+
+    clearProgress();
+    updateStats();
+    updateProgress();
+
+    startTest();
+  };
+
+  // -------------------------------
+  // ТЕСТ
+  // -------------------------------
 
   function startTest() {
     mode = "test";
@@ -217,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mode = "normal";
     currentIndex = 0;
 
-    clearProgress();  // 🧹 очищення після тесту
+    clearProgress();
     updateProgress();
   }
 });
