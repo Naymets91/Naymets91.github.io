@@ -9,13 +9,45 @@ document.addEventListener("DOMContentLoaded", () => {
   let testIndex = 0;
   let testScore = 0;
   let timer;
-  let timeLeft = 25; // ⏱ тепер 20 секунд
+  let timeLeft = 25;
+
+  // 🔄 ВІДНОВЛЕННЯ ПРОГРЕСУ
+  function loadProgress() {
+    const saved = JSON.parse(localStorage.getItem("progress"));
+    if (!saved) return;
+
+    score = saved.score ?? 0;
+    attempts = saved.attempts ?? 0;
+    skipped = saved.skipped ?? 0;
+    currentIndex = saved.currentIndex ?? 0;
+    mode = saved.mode ?? "normal";
+
+    updateStats();
+    updateProgress();
+  }
+
+  // 💾 ЗБЕРЕЖЕННЯ ПРОГРЕСУ
+  function saveProgress() {
+    localStorage.setItem("progress", JSON.stringify({
+      score,
+      attempts,
+      skipped,
+      currentIndex,
+      mode
+    }));
+  }
+
+  // 🧹 ОЧИСТИТИ ПРОГРЕС
+  function clearProgress() {
+    localStorage.removeItem("progress");
+  }
 
   // Завантаження слів
   fetch("words.json")
     .then(res => res.json())
     .then(data => {
       words = data;
+      loadProgress();   // ⬅️ відновлюємо прогрес після завантаження слів
       newQuestion();
     });
 
@@ -37,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startTimer() {
     clearInterval(timer);
-    timeLeft = 25; // ⏱ тепер 20 секунд
+    timeLeft = 25;
     document.getElementById("timer").textContent = `⏳ ${timeLeft} сек`;
     timer = setInterval(() => {
       timeLeft--;
@@ -48,8 +80,11 @@ document.addEventListener("DOMContentLoaded", () => {
         attempts++;
         if (mode === "normal") currentIndex++;
         else testIndex++;
+
         updateStats();
         updateProgress();
+        saveProgress();   // 💾 зберегли
+
         newQuestion();
       }
     }, 1000);
@@ -58,6 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function newQuestion() {
     clearInterval(timer);
     let word;
+
     if (mode === "normal") {
       word = words[Math.floor(Math.random() * words.length)];
     } else {
@@ -88,7 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
         attempts++;
         if (mode === "normal") currentIndex++;
 
-        // 🔒 Вимикаємо всі кнопки після вибору
         [...div.children].forEach(b => b.disabled = true);
 
         if (opt === word.ua) {
@@ -106,6 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         updateStats();
         updateProgress();
+        saveProgress();   // 💾 зберегли
 
         if (mode === "normal") {
           setTimeout(newQuestion, 1200);
@@ -125,8 +161,11 @@ document.addEventListener("DOMContentLoaded", () => {
       attempts++;
       if (mode === "normal") currentIndex++;
       else testIndex++;
+
       updateStats();
       updateProgress();
+      saveProgress();   // 💾 зберегли
+
       newQuestion();
     };
 
@@ -135,21 +174,23 @@ document.addEventListener("DOMContentLoaded", () => {
       attempts = 0;
       skipped = 0;
       currentIndex = 0;
+
+      clearProgress();  // 🧹 очищення
       updateStats();
       updateProgress();
       newQuestion();
     };
 
     document.getElementById("modeBtn").onclick = () => {
-      // 🔄 очищаємо все як при "Скинути"
       score = 0;
       attempts = 0;
       skipped = 0;
       currentIndex = 0;
+
+      clearProgress();  // 🧹 очищення
       updateStats();
       updateProgress();
 
-      // ▶️ запускаємо тест
       startTest();
     };
   }
@@ -172,9 +213,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("sumAccuracy").textContent =
       attempts > 0 ? Math.round((score / attempts) * 100) + "%" : "0%";
     document.getElementById("sumScore").textContent = testScore + "/100";
+
     mode = "normal";
     currentIndex = 0;
+
+    clearProgress();  // 🧹 очищення після тесту
     updateProgress();
   }
 });
-
