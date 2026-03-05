@@ -78,7 +78,6 @@ h2 {
 #modeBtn { background-color: #27ae60; }
 #modeBtn:hover { background-color: #1e8449; }
 
-/* НОВИЙ БЛОК ПІД КНОПКАМИ */
 .bottom-controls {
   margin-top: 25px;
   padding-top: 15px;
@@ -104,13 +103,12 @@ label {
   cursor: pointer;
 }
 
-/* Прогрес */
 .progress-container {
   width: 100%;
   background-color: #eee;
-  border-radius: 8px;
+  border-radius: 4px;
   margin: 15px 0;
-  height: 20px;
+  height: 6px;
   overflow: hidden;
 }
 
@@ -157,4 +155,5 @@ label {
   box-shadow: 0 0 10px #e74c3c;
   transform: scale(1.05);
 }
+
 
