@@ -9,18 +9,22 @@
 
 <div class="container">
 
-  <div class="top-controls">
-    <label>Набір слів:
-      <select id="wordSet">
-        <option value="words.json">Основні слова</option>
-        <option value="istqb.json">ISTQB</option>
-        <option value="time_and_seasons.json">Час</option>
-      </select>
-    </label>
+  <div class="top-info">
+    <div id="progress-text">0/0</div>
+    <div id="timer">⏳ 25 сек</div>
+  </div>
+
+
+  <div class="select-row">
+    <select id="wordSet">
+      <option value="words.json">Основні слова</option>
+      <option value="istqb.json">ISTQB</option>
+      <option value="time_and_seasons.json">Час</option>
+    </select>
 
     <label class="invert-label">
       <input type="checkbox" id="invertMode">
-      Інверсія (укр → англ)
+      Укр → англ
     </label>
   </div>
 
@@ -29,36 +33,33 @@
   <div id="options" class="options"></div>
 
   <!-- Кнопки -->
-    <div class="buttons-row">
-      <button id="skipBtn">⏭ Пропустити</button>
-      <button id="resetBtn">🔄 Скинути</button>
-      <button id="modeBtn">🧪 Тест</button>
-    </div>
+  <div class="buttons-row">
+    <button id="skipBtn">⏭ Пропустити</button>
+    <button id="resetBtn">🔄 Скинути</button>
+    <button id="modeBtn">🧪 Тест</button>
+  </div>
 
   <div class="progress-container">
     <div id="progress-bar"></div>
   </div>
-  <div id="progress-text">0/0</div>
-
-  <div id="timer">⏳ 25 сек</div>
 
   <!-- Статистика -->
-    <div class="stats">
-      <p>✔ Вірних: <span id="score">0</span></p>
-      <p>❌ Спроб: <span id="attempts">0</span></p>
-      <p>⏭ Пропущено: <span id="skipped">0</span></p>
-      <p>🎯 Точність: <span id="accuracy">0%</span></p>
-    </div>
+  <div class="stats">
+    <p>✔ Вірних: <span id="score">0</span></p>
+    <p>❌ Спроб: <span id="attempts">0</span></p>
+    <p>⏭ Пропущено: <span id="skipped">0</span></p>
+    <p>🎯 Точність: <span id="accuracy">0%</span></p>
+  </div>
 
-   <!-- Підсумок тесту -->
-    <div id="summary" style="display:none;">
-      <h2>Результати тесту</h2>
-      <p>✔ Вірних: <span id="sumCorrect">0</span></p>
-      <p>❌ Невірних: <span id="sumWrong">0</span></p>
-      <p>⏭ Пропущено: <span id="sumSkipped">0</span></p>
-      <p>🎯 Точність: <span id="sumAccuracy">0%</span></p>
-      <p>⭐ Балів: <span id="sumScore">0</span></p>
-    </div>
+  <!-- Підсумок тесту -->
+  <div id="summary" style="display:none;">
+    <h2>Результати тесту</h2>
+    <p>✔ Вірних: <span id="sumCorrect">0</span></p>
+    <p>❌ Невірних: <span id="sumWrong">0</span></p>
+    <p>⏭ Пропущено: <span id="sumSkipped">0</span></p>
+    <p>🎯 Точність: <span id="sumAccuracy">0%</span></p>
+    <p>⭐ Балів: <span id="sumScore">0</span></p>
+  </div>
 
 </div>
 
