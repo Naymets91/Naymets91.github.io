@@ -11,24 +11,6 @@
 
     <h1>Тренажер слів</h1>
 
-    <!-- Вибір словника -->
-    <label for="wordSet">Набір слів:</label>
-    <select id="wordSet">
-      <option value="words.json">Основні слова</option>
-      <option value="istqb.json">ISTQB терміни</option>
-    </select>
-
-    <!-- Прогрес -->
-    <div class="progress-container">
-      <div id="progress-bar"></div>
-    </div>
-
-    <!-- Лічильник слів + таймер -->
-    <div class="top-info">
-      <span id="progress-text">0/0</span>
-      <span id="timer">⏳ 25 сек</span>
-    </div>
-
     <!-- Слово -->
     <h2 id="word">...</h2>
 
@@ -40,6 +22,29 @@
       <button id="skipBtn">⏭ Пропустити</button>
       <button id="resetBtn">🔄 Скинути</button>
       <button id="modeBtn">🧪 Тест (20 слів)</button>
+    </div>
+
+    <!-- Блоки, які ти попросив перенести вниз -->
+    <div class="bottom-controls">
+
+      <!-- Вибір словника -->
+      <label for="wordSet">Набір слів:</label>
+      <select id="wordSet">
+        <option value="words.json">Основні слова</option>
+        <option value="istqb.json">ISTQB терміни</option>
+      </select>
+
+      <!-- Прогрес -->
+      <div class="progress-container">
+        <div id="progress-bar"></div>
+      </div>
+
+      <!-- Лічильник слів + таймер -->
+      <div class="top-info">
+        <span id="progress-text">0/0</span>
+        <span id="timer">⏳ 25 сек</span>
+      </div>
+
     </div>
 
     <!-- Статистика -->
