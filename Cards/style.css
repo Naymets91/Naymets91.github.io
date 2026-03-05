@@ -1,152 +1,238 @@
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+document.addEventListener("DOMContentLoaded", () => {
+  let words = [];
+  let score = 0;
+  let attempts = 0;
+  let skipped = 0;
+  let currentIndex = 0;
+  let mode = "normal";
+  let testWords = [];
+  let testIndex = 0;
+  let testScore = 0;
+  let timer;
+  let timeLeft = 25;
 
-.container {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  text-align: center;
-  width: 480px;
-}
+  let selectedFile = localStorage.getItem("wordSet") || "words.json";
+  document.getElementById("wordSet").value = selectedFile;
 
-h2 {
-  font-size: 28px;
-  margin: 20px 0;
-  color: #333;
-}
+  function loadWords() {
+    fetch(selectedFile)
+      .then(res => res.json())
+      .then(data => {
+        words = data;
+        loadProgress();
+        updateProgress();
+        newQuestion();
+      });
+  }
 
-/* Селектор словника */
-label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 6px;
-  text-align: left;
-}
+  function saveProgress() {
+    localStorage.setItem("progress", JSON.stringify({
+      score,
+      attempts,
+      skipped,
+      currentIndex,
+      mode,
+      selectedFile
+    }));
+  }
 
-#wordSet {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 2px solid #3498db;
-  margin-bottom: 20px;
-  background: #ecf6ff;
-  cursor: pointer;
-}
+  function loadProgress() {
+    const saved = JSON.parse(localStorage.getItem("progress"));
+    if (!saved) return;
+    if (saved.selectedFile !== selectedFile) return;
 
-/* Прогрес-бар */
-.progress-container {
-  width: 100%;
-  background-color: #eee;
-  border-radius: 8px;
-  margin: 15px 0;
-  height: 20px;
-  overflow: hidden;
-}
+    score = saved.score ?? 0;
+    attempts = saved.attempts ?? 0;
+    skipped = saved.skipped ?? 0;
+    currentIndex = saved.currentIndex ?? 0;
+    mode = saved.mode ?? "normal";
 
-#progress-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #2ecc71, #27ae60);
-  transition: width 0.4s ease;
-}
+    updateStats();
+  }
 
-/* Лічильник слів + таймер */
-.top-info {
-  display: flex;
-  justify-content: space-between;
-  margin: 10px 0 20px 0;
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-}
+  function clearProgress() {
+    localStorage.removeItem("progress");
+  }
 
-/* Варіанти відповіді */
-#options {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 12px;
-  justify-items: center;
-  margin-bottom: 15px;
-}
+  loadWords();
 
-.option-btn {
-  width: 100%;
-  max-width: 180px;
-  padding: 12px 20px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 2px solid transparent;
-  cursor: pointer;
-  transition: all 0.4s ease;
-  background-color: #3498db;
-  color: white;
-}
+  function updateStats() {
+    document.getElementById("score").textContent = score;
+    document.getElementById("attempts").textContent = attempts;
+    document.getElementById("skipped").textContent = skipped;
+    let accuracy = attempts > 0 ? Math.round((score / attempts) * 100) : 0;
+    document.getElementById("accuracy").textContent = accuracy + "%";
+  }
 
-.option-btn:hover {
-  background-color: #2980b9;
-}
+  function updateProgress() {
+    const total = mode === "normal" ? words.length : testWords.length;
+    const done = mode === "normal" ? currentIndex : testIndex;
+    const percent = total > 0 ? Math.round((done / total) * 100) : 0;
+    document.getElementById("progress-bar").style.width = percent + "%";
+    document.getElementById("progress-text").textContent = `${done}/${total}`;
+  }
 
-/* Кнопки */
-.buttons-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 15px;
-}
+  function startTimer() {
+    clearInterval(timer);
+    timeLeft = 25;
+    document.getElementById("timer").textContent = `⏳ ${timeLeft} сек`;
+    timer = setInterval(() => {
+      timeLeft--;
+      document.getElementById("timer").textContent = `⏳ ${timeLeft} сек`;
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        skipped++;
+        attempts++;
+        if (mode === "normal") currentIndex++;
+        else testIndex++;
 
-#skipBtn, #resetBtn, #modeBtn {
-  flex: 1;
-  padding: 12px 20px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  color: white;
-  transition: 0.3s;
-}
+        updateStats();
+        updateProgress();
+        saveProgress();
+        newQuestion();
+      }
+    }, 1000);
+  }
 
-#skipBtn { background-color: #f39c12; }
-#skipBtn:hover { background-color: #d35400; }
+  function newQuestion() {
+    clearInterval(timer);
 
-#resetBtn { background-color: #e74c3c; }
-#resetBtn:hover { background-color: #c0392b; }
+    let word;
+    if (mode === "normal") {
+      word = words[Math.floor(Math.random() * words.length)];
+    } else {
+      if (testIndex >= testWords.length) {
+        finishTest();
+        return;
+      }
+      word = testWords[testIndex];
+    }
 
-#modeBtn { background-color: #27ae60; }
-#modeBtn:hover { background-color: #1e8449; }
+    document.getElementById("word").textContent = word.en;
 
-/* Статистика */
-.stats {
-  margin-top: 20px;
-  text-align: left;
-  font-size: 16px;
-  background: #f7f7f7;
-  padding: 15px;
-  border-radius: 8px;
-}
+    let options = [word.ua];
+    while (options.length < 4) {
+      let random = words[Math.floor(Math.random() * words.length)].ua;
+      if (!options.includes(random)) options.push(random);
+    }
+    options = options.sort(() => Math.random() - 0.5);
 
-.stats p {
-  margin: 5px 0;
-}
+    const div = document.getElementById("options");
+    div.innerHTML = "";
+    options.forEach(opt => {
+      const btn = document.createElement("button");
+      btn.textContent = opt;
+      btn.classList.add("option-btn");
+      btn.onclick = () => {
+        clearInterval(timer);
+        attempts++;
+        if (mode === "normal") currentIndex++;
 
-/* Підсвічування */
-.correct {
-  border: 2px solid #2ecc71 !important;
-  box-shadow: 0 0 10px #2ecc71;
-  transform: scale(1.05);
-}
+        [...div.children].forEach(b => b.disabled = true);
 
-.wrong {
-  border: 2px solid #e74c3c !important;
-  box-shadow: 0 0 10px #e74c3c;
-  transform: scale(1.05);
-}
+        if (opt === word.ua) {
+          score++;
+          btn.classList.add("correct");
+          if (mode === "test") testScore += 5;
+        } else {
+          btn.classList.add("wrong");
+          [...div.children].forEach(b => {
+            if (b.textContent === word.ua) b.classList.add("correct");
+          });
+        }
+
+        updateStats();
+        updateProgress();
+        saveProgress();
+
+        if (mode === "normal") {
+          setTimeout(newQuestion, 1200);
+        } else {
+          testIndex++;
+          setTimeout(newQuestion, 1200);
+        }
+      };
+      div.appendChild(btn);
+    });
+
+    startTimer();
+  }
+
+  document.getElementById("skipBtn").onclick = () => {
+    clearInterval(timer);
+    skipped++;
+    attempts++;
+    if (mode === "normal") currentIndex++;
+    else testIndex++;
+
+    updateStats();
+    updateProgress();
+    saveProgress();
+    newQuestion();
+  };
+
+  document.getElementById("resetBtn").onclick = () => {
+    score = 0;
+    attempts = 0;
+    skipped = 0;
+    currentIndex = 0;
+
+    clearProgress();
+    updateStats();
+    updateProgress();
+    newQuestion();
+  };
+
+  document.getElementById("modeBtn").onclick = () => {
+    score = 0;
+    attempts = 0;
+    skipped = 0;
+    currentIndex = 0;
+
+    clearProgress();
+    updateStats();
+    updateProgress();
+    startTest();
+  };
+
+  function startTest() {
+    mode = "test";
+    testWords = [...words].sort(() => Math.random() - 0.5).slice(0, 20);
+    testIndex = 0;
+    testScore = 0;
+    document.getElementById("summary").style.display = "none";
+    updateProgress();
+    newQuestion();
+  }
+
+  function finishTest() {
+    document.getElementById("summary").style.display = "block";
+    document.getElementById("sumCorrect").textContent = score;
+    document.getElementById("sumWrong").textContent = attempts - score - skipped;
+    document.getElementById("sumSkipped").textContent = skipped;
+    document.getElementById("sumAccuracy").textContent =
+      attempts > 0 ? Math.round((score / attempts) * 100) + "%" : "0%";
+    document.getElementById("sumScore").textContent = testScore + "/100";
+
+    mode = "normal";
+    currentIndex = 0;
+
+    clearProgress();
+    updateProgress();
+  }
+
+  document.getElementById("wordSet").onchange = (e) => {
+    selectedFile = e.target.value;
+    localStorage.setItem("wordSet", selectedFile);
+
+    clearProgress();
+    score = 0;
+    attempts = 0;
+    skipped = 0;
+    currentIndex = 0;
+
+    updateStats();
+    updateProgress();
+    loadWords();
+  };
+});
