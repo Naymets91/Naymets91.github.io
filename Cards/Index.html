@@ -18,16 +18,8 @@
       <option value="istqb.json">ISTQB терміни</option>
     </select>
 
-    <!-- Статистика -->
-    <div class="stats">
-      <p>Вірних: <span id="score">0</span></p>
-      <p>Спроб: <span id="attempts">0</span></p>
-      <p>Пропущено: <span id="skipped">0</span></p>
-      <p>Точність: <span id="accuracy">0%</span></p>
-    </div>
-
     <!-- Прогрес -->
-    <div class="progress">
+    <div class="progress-container">
       <div id="progress-bar"></div>
     </div>
     <p id="progress-text">0/0</p>
@@ -42,20 +34,28 @@
     <div id="options"></div>
 
     <!-- Кнопки -->
-    <div class="buttons">
-      <button id="skipBtn">Пропустити</button>
-      <button id="resetBtn">Скинути</button>
-      <button id="modeBtn">Тест (20 слів)</button>
+    <div class="buttons-row">
+      <button id="skipBtn">⏭ Пропустити</button>
+      <button id="resetBtn">🔄 Скинути</button>
+      <button id="modeBtn">🧪 Тест (20 слів)</button>
+    </div>
+
+    <!-- Статистика — ПІД кнопками -->
+    <div class="stats">
+      <p>✔ Вірних: <span id="score">0</span></p>
+      <p>❌ Спроб: <span id="attempts">0</span></p>
+      <p>⏭ Пропущено: <span id="skipped">0</span></p>
+      <p>🎯 Точність: <span id="accuracy">0%</span></p>
     </div>
 
     <!-- Підсумок тесту -->
     <div id="summary" style="display:none;">
       <h2>Результати тесту</h2>
-      <p>Вірних: <span id="sumCorrect">0</span></p>
-      <p>Невірних: <span id="sumWrong">0</span></p>
-      <p>Пропущено: <span id="sumSkipped">0</span></p>
-      <p>Точність: <span id="sumAccuracy">0%</span></p>
-      <p>Балів: <span id="sumScore">0</span></p>
+      <p>✔ Вірних: <span id="sumCorrect">0</span></p>
+      <p>❌ Невірних: <span id="sumWrong">0</span></p>
+      <p>⏭ Пропущено: <span id="sumSkipped">0</span></p>
+      <p>🎯 Точність: <span id="sumAccuracy">0%</span></p>
+      <p>⭐ Балів: <span id="sumScore">0</span></p>
     </div>
 
   </div>
