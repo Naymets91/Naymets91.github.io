@@ -79,9 +79,8 @@ h2 {
 #modeBtn:hover { background-color: #1e8449; }
 
 .bottom-controls {
-  margin-top: 25px;
+  margin-top: 15px;
   padding-top: 15px;
-  border-top: 2px solid #ddd;
   text-align: left;
 }
 
@@ -155,5 +154,6 @@ label {
   box-shadow: 0 0 10px #e74c3c;
   transform: scale(1.05);
 }
+
 
 
