@@ -11,30 +11,15 @@ let totalAttempts = 0;
 
 let currentPool = [];
 
-// --- ОЗВУЧКА СЛІВ (Web Speech API) ---
-function speakText(text) {
-  if (!text) return;
-  window.speechSynthesis.cancel(); // Зупиняємо попередню озвучку
+// --- ЛОГІКА ІНТЕРВАЛЬНИХ ПОВТОРЕНЬ (LEITNER / LOCALSTORAGE) ---
 
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'en-US';
-  utterance.rate = 0.9;
-
-  window.speechSynthesis.speak(utterance);
-}
-
-function speakCurrentWord() {
-  if (currentWordIndex === null || !currentPool[currentWordIndex]) return;
-  const current = currentPool[currentWordIndex];
-  speakText(current.word);
-}
-
-// --- ІНТЕРВАЛЬНІ ПОВТОРЕННЯ (LEITNER SYSTEM) ---
+// Отримати рівні слів з localStorage
 function getWordProgress() {
   const saved = localStorage.getItem('wordProgress');
   return saved ? JSON.parse(saved) : {};
 }
 
+// Зберегти рівень слова
 function updateWordLevel(wordKey, isCorrect) {
   const progress = getWordProgress();
   let currentLevel = progress[wordKey] || 1;
@@ -42,24 +27,28 @@ function updateWordLevel(wordKey, isCorrect) {
   if (isCorrect) {
     if (currentLevel < 3) currentLevel++;
   } else {
-    currentLevel = 1; // Зміщення вашого слова на Рівень 1 при помилці
+    currentLevel = 1; // При помилці одразу повертаємо в "важкі"
   }
 
   progress[wordKey] = currentLevel;
   localStorage.setItem('wordProgress', JSON.stringify(progress));
 }
 
+// Вибір слова з урахуванням вагових коефіцієнтів (60% / 30% / 10%)
 function getWeightedRandomIndex() {
-  if (currentPool.length <= 1) return 0;
+  if (currentPool.length === 0) return 0;
+  if (currentPool.length === 1) return 0;
 
   const progress = getWordProgress();
 
-  const level1 = []; // Важкі / Нові (60%)
-  const level2 = []; // Знайомі (30%)
-  const level3 = []; // Вивчені (10%)
+  // Розподіляємо індекси поточного набору по кошиках
+  const level1 = []; // Важкі / Нові
+  const level2 = []; // В процесі
+  const level3 = []; // Засвоєні
 
   currentPool.forEach((item, index) => {
-    if (index === currentWordIndex) return; // Не повторювати слово поспіль
+    // Не беремо те саме слово поспіль, якщо в наборі більше 1 слова
+    if (index === currentWordIndex) return;
 
     const level = progress[item.word] || 1;
     if (level === 1) level1.push(index);
@@ -67,6 +56,7 @@ function getWeightedRandomIndex() {
     else level3.push(index);
   });
 
+  // Шанси: 60% - level1, 30% - level2, 10% - level3
   const rand = Math.random() * 100;
   let targetGroup = [];
 
@@ -77,16 +67,19 @@ function getWeightedRandomIndex() {
   } else if (level3.length > 0) {
     targetGroup = level3;
   } else {
+    // Якщо вибрана група порожня, збираємо всі доступні індекси
     targetGroup = [...level1, ...level2, ...level3];
   }
 
+  // Якщо всі доступні слова це поточне слово — повертаємо його
   if (targetGroup.length === 0) return currentWordIndex;
 
   const randomIndex = Math.floor(Math.random() * targetGroup.length);
   return targetGroup[randomIndex];
 }
 
-// --- ОСНОВНА ЛОГІКА ГРИ ---
+// -------------------------------------------------------------
+
 function initPool() {
   const selectedSet = document.getElementById('wordSet').value;
   if (selectedSet === 'all') {
@@ -102,6 +95,7 @@ function initPool() {
 function loadQuestion() {
   if (currentPool.length === 0) initPool();
 
+  // Використовуємо адаптивний вибір замість чисто випадкового
   currentWordIndex = getWeightedRandomIndex();
 
   const current = currentPool[currentWordIndex];
@@ -144,16 +138,15 @@ function checkAnswer(btn, selected) {
 
   totalAttempts++;
 
-  // Озвучуємо англійську вимову
-  speakText(current.word);
-
   if (selected === correct) {
     btn.classList.add('correct');
     correctCount++;
+    // Підвищуємо рівень слова (слово випадатиме рідше)
     updateWordLevel(current.word, true);
   } else {
     btn.classList.add('wrong');
     wrongCount++;
+    // Помилка: скидаємо на 1 рівень (слово випадатиме частіше)
     updateWordLevel(current.word, false);
 
     buttons.forEach(b => {
@@ -185,6 +178,15 @@ function resetStats() {
   updateStats();
   resetTimer();
   loadQuestion();
+}
+
+// Опціонально: функція для повного скидання вивчених слів (наприклад, для кнопки "Скинути прогрес слів")
+function resetWordProgress() {
+  if (confirm("Скинути весь прогрес вивчення слів?")) {
+    localStorage.removeItem('wordProgress');
+    alert("Прогрес слів скинуто!");
+    loadQuestion();
+  }
 }
 
 function updateCounter() {
@@ -243,8 +245,6 @@ document.getElementById('wordSet').addEventListener('change', () => {
 document.getElementById('invertCheck').addEventListener('change', () => {
   loadQuestion();
 });
-
-document.getElementById('speakBtn').addEventListener('click', speakCurrentWord);
 
 window.onload = () => {
   initPool();
