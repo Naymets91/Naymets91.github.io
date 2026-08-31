@@ -1,274 +1,136 @@
-let currentWordIndex = null;
-let timer = null;
-let timeLeft = 30;
-let totalTime = 30;
-let isTimerRunning = false;
+<!DOCTYPE html>
 
-let correctCount = 0;
-let wrongCount = 0;
-let skippedCount = 0;
-let totalAttempts = 0;
+<html lang="uk">
 
-let currentPool = [];
-let wordSets = {};
+<head>
 
-// --- ОЗВУЧКА СЛІВ (Web Speech API) ---
-function speakText(text) {
-  if (!text) return;
-  window.speechSynthesis.cancel();
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Trainer</title>
 
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'en-US';
-  utterance.rate = 0.9;
+<link rel="stylesheet" href="style.css">
 
-  window.speechSynthesis.speak(utterance);
-}
+</head>
 
-function speakCurrentWord() {
-  if (currentWordIndex === null || !currentPool[currentWordIndex]) return;
-  const current = currentPool[currentWordIndex];
-  speakText(current.word);
-}
+<body>
 
-// --- ІНТЕРВАЛЬНІ ПОВТОРЕННЯ (LEITNER / LOCALSTORAGE) ---
-function getWordProgress() {
-  const saved = localStorage.getItem('wordProgress');
-  return saved ? JSON.parse(saved) : {};
-}
 
-function updateWordLevel(wordKey, isCorrect) {
-  const progress = getWordProgress();
-  let currentLevel = progress[wordKey] || 1;
 
-  if (isCorrect) {
-    if (currentLevel < 3) currentLevel++;
-  } else {
-    currentLevel = 1;
-  }
+<div class="container">
 
-  progress[wordKey] = currentLevel;
-  localStorage.setItem('wordProgress', JSON.stringify(progress));
-}
 
-function getWeightedRandomIndex() {
-  if (currentPool.length <= 1) return 0;
 
-  const progress = getWordProgress();
+  <div id="word" class="word">...</div>
 
-  const level1 = [];
-  const level2 = [];
-  const level3 = [];
 
-  currentPool.forEach((item, index) => {
-    if (index === currentWordIndex) return;
 
-    const level = progress[item.word] || 1;
-    if (level === 1) level1.push(index);
-    else if (level === 2) level2.push(index);
-    else level3.push(index);
-  });
+  <div id="options" class="options"></div>
 
-  const rand = Math.random() * 100;
-  let targetGroup = [];
 
-  if (rand < 60 && level1.length > 0) {
-    targetGroup = level1;
-  } else if (rand < 90 && level2.length > 0) {
-    targetGroup = level2;
-  } else if (level3.length > 0) {
-    targetGroup = level3;
-  } else {
-    targetGroup = [...level1, ...level2, ...level3];
-  }
 
-  if (targetGroup.length === 0) return currentWordIndex;
+  <!-- Кнопки -->
 
-  const randomIndex = Math.floor(Math.random() * targetGroup.length);
-  return targetGroup[randomIndex];
-}
+  <div class="buttons-row">
 
-// --- ЗАВАНТАЖЕННЯ ТА ЛОГІКА ГРИ ---
-async function loadWordSets() {
-  try {
-    const response = await fetch('months_and_seasons.json');
-    const data = await response.json();
-    
-    // Якщо у JSON масив слів або об'єкт з наборами
-    if (Array.isArray(data)) {
-      wordSets = { 'months_and_seasons.json': data };
-    } else {
-      wordSets = data;
-    }
+    <button id="skipBtn">⏭ Пропустити</button>
 
-    initPool();
-    loadQuestion();
-    startTimer();
-  } catch (error) {
-    console.error('Помилка завантаження слів:', error);
-  }
-}
+    <button id="resetBtn">🔄 Скинути</button>
 
-function initPool() {
-  const selectedSet = document.getElementById('wordSet').value;
-  if (selectedSet === 'all') {
-    currentPool = [];
-    for (let set in wordSets) {
-      if (Array.isArray(wordSets[set])) {
-        currentPool = currentPool.concat(wordSets[set]);
-      }
-    }
-  } else {
-    currentPool = wordSets[selectedSet] || [];
-  }
-}
+    <button id="modeBtn">🧪 Тест</button>
 
-function loadQuestion() {
-  if (!currentPool || currentPool.length === 0) return;
+  </div>
 
-  currentWordIndex = getWeightedRandomIndex();
 
-  const current = currentPool[currentWordIndex];
-  const isInverted = document.getElementById('invertCheck').checked;
 
-  document.getElementById('word').innerText = isInverted ? current.translation : current.word;
+  <div class="progress-container">
 
-  let options = [isInverted ? current.word : current.translation];
-  while (options.length < 4 && options.length < currentPool.length) {
-    let randomObj = currentPool[Math.floor(Math.random() * currentPool.length)];
-    let optionText = isInverted ? randomObj.word : randomObj.translation;
-    if (!options.includes(optionText)) {
-      options.push(optionText);
-    }
-  }
+    <div id="progress-bar"></div>
 
-  options.sort(() => Math.random() - 0.5);
+  </div>
 
-  const optionsContainer = document.getElementById('options');
-  optionsContainer.innerHTML = '';
 
-  options.forEach(option => {
-    const btn = document.createElement('button');
-    btn.className = 'option-btn';
-    btn.innerText = option;
-    btn.onclick = () => checkAnswer(btn, option);
-    optionsContainer.appendChild(btn);
-  });
 
-  updateCounter();
-}
+    <div class="top-info">
 
-function checkAnswer(btn, selected) {
-  const current = currentPool[currentWordIndex];
-  const isInverted = document.getElementById('invertCheck').checked;
-  const correct = isInverted ? current.word : current.translation;
+    <div id="progress-text">0/0</div>
 
-  const buttons = document.querySelectorAll('.option-btn');
-  buttons.forEach(b => b.disabled = true);
+    <div id="timer">⏳ 25 сек</div>
 
-  totalAttempts++;
+  </div>
 
-  // Авто-озвучка англійської вимови
-  speakText(current.word);
 
-  if (selected === correct) {
-    btn.classList.add('correct');
-    correctCount++;
-    updateWordLevel(current.word, true);
-  } else {
-    btn.classList.add('wrong');
-    wrongCount++;
-    updateWordLevel(current.word, false);
 
-    buttons.forEach(b => {
-      if (b.innerText === correct) {
-        b.classList.add('correct');
-      }
-    });
-  }
 
-  updateStats();
 
-  setTimeout(() => {
-    loadQuestion();
-  }, 1200);
-}
+  <div class="select-row">
 
-function skipQuestion() {
-  skippedCount++;
-  totalAttempts++;
-  updateStats();
-  loadQuestion();
-}
+    <select id="wordSet">
 
-function resetStats() {
-  correctCount = 0;
-  wrongCount = 0;
-  skippedCount = 0;
-  totalAttempts = 0;
-  updateStats();
-  resetTimer();
-  loadQuestion();
-}
+      <option value="words.json">Основні слова</option>
 
-function updateCounter() {
-  document.getElementById('counter').innerText = `${currentWordIndex + 1}/${currentPool.length}`;
-}
+      <option value="istqb.json">ISTQB</option>
 
-function updateStats() {
-  document.getElementById('correctCount').innerText = correctCount;
-  document.getElementById('wrongCount').innerText = wrongCount;
-  document.getElementById('skippedCount').innerText = skippedCount;
-  document.getElementById('totalAttempts').innerText = totalAttempts;
+      <option value="time_and_seasons.json">Час</option>
 
-  let accuracy = totalAttempts > 0 ? Math.round((correctCount / totalAttempts) * 100) : 0;
-  document.getElementById('accuracy').innerText = accuracy + '%';
-}
+    </select>
 
-function startTimer() {
-  if (isTimerRunning) return;
-  isTimerRunning = true;
 
-  timer = setInterval(() => {
-    timeLeft--;
-    document.getElementById('timer').innerText = timeLeft;
-    let percentage = (timeLeft / totalTime) * 100;
-    document.getElementById('progress-bar').style.width = percentage + '%';
 
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      showSummary();
-    }
-  }, 1000);
-}
+    <label class="invert-label">
 
-function resetTimer() {
-  clearInterval(timer);
-  isTimerRunning = false;
-  timeLeft = totalTime;
-  document.getElementById('timer').innerText = timeLeft;
-  document.getElementById('progress-bar').style.width = '100%';
-  startTimer();
-}
+      <input type="checkbox" id="invertMode">
 
-function showSummary() {
-  document.getElementById('options').innerHTML = '';
-  document.getElementById('word').innerText = 'Тест завершено!';
-  document.getElementById('summary').style.display = 'block';
-  document.getElementById('summaryText').innerText =
-    `Ваш результат: ${correctCount} вірних з ${totalAttempts}. Точність: ${document.getElementById('accuracy').innerText}`;
-}
+      Укр → англ
 
-document.getElementById('wordSet').addEventListener('change', () => {
-  initPool();
-  resetStats();
-});
+    </label>
 
-document.getElementById('invertCheck').addEventListener('change', () => {
-  loadQuestion();
-});
+  </div>
 
-document.getElementById('speakBtn').addEventListener('click', speakCurrentWord);
 
-window.onload = () => {
-  loadWordSets();
-};
+
+  <!-- Статистика -->
+
+  <div class="stats">
+
+    <p>✔ Вірних: <span id="score">0</span></p>
+
+    <p>❌ Спроб: <span id="attempts">0</span></p>
+
+    <p>⏭ Пропущено: <span id="skipped">0</span></p>
+
+    <p>🎯 Точність: <span id="accuracy">0%</span></p>
+
+  </div>
+
+
+
+  <!-- Підсумок тесту -->
+
+  <div id="summary" style="display:none;">
+
+    <h2>Результати тесту</h2>
+
+    <p>✔ Вірних: <span id="sumCorrect">0</span></p>
+
+    <p>❌ Невірних: <span id="sumWrong">0</span></p>
+
+    <p>⏭ Пропущено: <span id="sumSkipped">0</span></p>
+
+    <p>🎯 Точність: <span id="sumAccuracy">0%</span></p>
+
+    <p>⭐ Балів: <span id="sumScore">0</span></p>
+
+  </div>
+
+
+
+</div>
+
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html> 
+
