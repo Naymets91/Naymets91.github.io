@@ -1,0 +1,20 @@
+[
+  { "en": "January", "ua": "Січень" },
+  { "en": "February", "ua": "Лютий" },
+  { "en": "March", "ua": "Березень" },
+  { "en": "April", "ua": "Квітень" },
+  { "en": "May", "ua": "Травень" },
+  { "en": "June", "ua": "Червень" },
+  { "en": "July", "ua": "Липень" },
+  { "en": "August", "ua": "Серпень" },
+  { "en": "September", "ua": "Вересень" },
+  { "en": "October", "ua": "Жовтень" },
+  { "en": "November", "ua": "Листопад" },
+  { "en": "December", "ua": "Грудень" },
+
+  { "en": "Spring", "ua": "Весна" },
+  { "en": "Summer", "ua": "Літо" },
+  { "en": "Autumn", "ua": "Осінь" },
+  { "en": "Fall", "ua": "Осінь (амер.)" },
+  { "en": "Winter", "ua": "Зима" }
+]
