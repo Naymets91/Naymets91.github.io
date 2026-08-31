@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedFile = localStorage.getItem("wordSet") || "words.json";
   document.getElementById("wordSet").value = selectedFile;
 
-  // Функція озвучування тексту (Web Speech API)
+  // Озвучування англійського слова
   function speakText(text) {
     if (!text) return;
     window.speechSynthesis.cancel();
@@ -26,6 +26,16 @@ document.addEventListener("DOMContentLoaded", () => {
     utterance.lang = "en-US";
     utterance.rate = 0.9;
     window.speechSynthesis.speak(utterance);
+  }
+
+  // Натискання на динамік 🔊
+  const speakBtn = document.getElementById("speakBtn");
+  if (speakBtn) {
+    speakBtn.onclick = () => {
+      if (currentWordObj && currentWordObj.en) {
+        speakText(currentWordObj.en);
+      }
+    };
   }
 
   async function loadWords() {
@@ -158,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         [...div.children].forEach(b => b.disabled = true);
 
-        // Озвучуємо англійське слово одразу після кліку
+        // Озвучування англійського слова при виборі відповіді
         if (currentWordObj && currentWordObj.en) {
           speakText(currentWordObj.en);
         }
