@@ -1,260 +1,253 @@
-document.addEventListener("DOMContentLoaded", () => {
-  let words = [];
-  let score = 0;
-  let attempts = 0;
-  let skipped = 0;
-  let currentIndex = 0;
-  let mode = "normal";
-  let testWords = [];
-  let testIndex = 0;
-  let testScore = 0;
-  let timer;
-  let timeLeft = 25;
+let currentWordIndex = null;
+let timer = null;
+let timeLeft = 30;
+let totalTime = 30;
+let isTimerRunning = false;
 
-  let invert = false;
+let correctCount = 0;
+let wrongCount = 0;
+let skippedCount = 0;
+let totalAttempts = 0;
 
-  let selectedFile = localStorage.getItem("wordSet") || "words.json";
-  document.getElementById("wordSet").value = selectedFile;
+let currentPool = [];
 
-  async function loadWords() {
-    const res = await fetch(selectedFile);
-    const data = await res.json();
+// --- ЛОГІКА ІНТЕРВАЛЬНИХ ПОВТОРЕНЬ (LEITNER / LOCALSTORAGE) ---
 
-    if (!Array.isArray(data) || data.length === 0) {
-      alert("У цьому наборі слів немає даних.");
-      return;
+// Отримати рівні слів з localStorage
+function getWordProgress() {
+  const saved = localStorage.getItem('wordProgress');
+  return saved ? JSON.parse(saved) : {};
+}
+
+// Зберегти рівень слова
+function updateWordLevel(wordKey, isCorrect) {
+  const progress = getWordProgress();
+  let currentLevel = progress[wordKey] || 1;
+
+  if (isCorrect) {
+    if (currentLevel < 3) currentLevel++;
+  } else {
+    currentLevel = 1; // При помилці одразу повертаємо в "важкі"
+  }
+
+  progress[wordKey] = currentLevel;
+  localStorage.setItem('wordProgress', JSON.stringify(progress));
+}
+
+// Вибір слова з урахуванням вагових коефіцієнтів (60% / 30% / 10%)
+function getWeightedRandomIndex() {
+  if (currentPool.length === 0) return 0;
+  if (currentPool.length === 1) return 0;
+
+  const progress = getWordProgress();
+
+  // Розподіляємо індекси поточного набору по кошиках
+  const level1 = []; // Важкі / Нові
+  const level2 = []; // В процесі
+  const level3 = []; // Засвоєні
+
+  currentPool.forEach((item, index) => {
+    // Не беремо те саме слово поспіль, якщо в наборі більше 1 слова
+    if (index === currentWordIndex) return;
+
+    const level = progress[item.word] || 1;
+    if (level === 1) level1.push(index);
+    else if (level === 2) level2.push(index);
+    else level3.push(index);
+  });
+
+  // Шанси: 60% - level1, 30% - level2, 10% - level3
+  const rand = Math.random() * 100;
+  let targetGroup = [];
+
+  if (rand < 60 && level1.length > 0) {
+    targetGroup = level1;
+  } else if (rand < 90 && level2.length > 0) {
+    targetGroup = level2;
+  } else if (level3.length > 0) {
+    targetGroup = level3;
+  } else {
+    // Якщо вибрана група порожня, збираємо всі доступні індекси
+    targetGroup = [...level1, ...level2, ...level3];
+  }
+
+  // Якщо всі доступні слова це поточне слово — повертаємо його
+  if (targetGroup.length === 0) return currentWordIndex;
+
+  const randomIndex = Math.floor(Math.random() * targetGroup.length);
+  return targetGroup[randomIndex];
+}
+
+// -------------------------------------------------------------
+
+function initPool() {
+  const selectedSet = document.getElementById('wordSet').value;
+  if (selectedSet === 'all') {
+    currentPool = [];
+    for (let set in wordSets) {
+      currentPool = currentPool.concat(wordSets[set]);
     }
+  } else {
+    currentPool = wordSets[selectedSet] || [];
+  }
+}
 
-    words = data;
-    loadProgress();
-    updateProgress();
+function loadQuestion() {
+  if (currentPool.length === 0) initPool();
+
+  // Використовуємо адаптивний вибір замість чисто випадкового
+  currentWordIndex = getWeightedRandomIndex();
+
+  const current = currentPool[currentWordIndex];
+  const isInverted = document.getElementById('invertCheck').checked;
+
+  document.getElementById('word').innerText = isInverted ? current.translation : current.word;
+
+  let options = [isInverted ? current.word : current.translation];
+  while (options.length < 4) {
+    let randomObj = currentPool[Math.floor(Math.random() * currentPool.length)];
+    let optionText = isInverted ? randomObj.word : randomObj.translation;
+    if (!options.includes(optionText)) {
+      options.push(optionText);
+    }
   }
 
-  function saveProgress() {
-    localStorage.setItem("progress", JSON.stringify({
-      score,
-      attempts,
-      skipped,
-      currentIndex,
-      mode,
-      selectedFile,
-      invert
-    }));
-  }
+  options.sort(() => Math.random() - 0.5);
 
-  function loadProgress() {
-    const saved = JSON.parse(localStorage.getItem("progress"));
-    if (!saved) return;
-    if (saved.selectedFile !== selectedFile) return;
+  const optionsContainer = document.getElementById('options');
+  optionsContainer.innerHTML = '';
 
-    score = saved.score ?? 0;
-    attempts = saved.attempts ?? 0;
-    skipped = saved.skipped ?? 0;
-    currentIndex = saved.currentIndex ?? 0;
-    mode = saved.mode ?? "normal";
-    invert = saved.invert ?? false;
+  options.forEach(option => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerText = option;
+    btn.onclick = () => checkAnswer(btn, option);
+    optionsContainer.appendChild(btn);
+  });
 
-    document.getElementById("invertMode").checked = invert;
+  updateCounter();
+}
 
-    updateStats();
-  }
+function checkAnswer(btn, selected) {
+  const current = currentPool[currentWordIndex];
+  const isInverted = document.getElementById('invertCheck').checked;
+  const correct = isInverted ? current.word : current.translation;
 
-  function clearProgress() {
-    localStorage.removeItem("progress");
-  }
+  const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach(b => b.disabled = true);
 
-  loadWords().then(() => newQuestion());
+  totalAttempts++;
 
-  function updateStats() {
-    document.getElementById("score").textContent = score;
-    document.getElementById("attempts").textContent = attempts;
-    document.getElementById("skipped").textContent = skipped;
-    let accuracy = attempts > 0 ? Math.round((score / attempts) * 100) : 0;
-    document.getElementById("accuracy").textContent = accuracy + "%";
-  }
+  if (selected === correct) {
+    btn.classList.add('correct');
+    correctCount++;
+    // Підвищуємо рівень слова (слово випадатиме рідше)
+    updateWordLevel(current.word, true);
+  } else {
+    btn.classList.add('wrong');
+    wrongCount++;
+    // Помилка: скидаємо на 1 рівень (слово випадатиме частіше)
+    updateWordLevel(current.word, false);
 
-  function updateProgress() {
-    const total = mode === "normal" ? words.length : testWords.length;
-    const done = mode === "normal" ? currentIndex : testIndex;
-    const percent = total > 0 ? Math.round((done / total) * 100) : 0;
-    document.getElementById("progress-bar").style.width = percent + "%";
-    document.getElementById("progress-text").textContent = `${done}/${total}`;
-  }
-
-  function startTimer() {
-    clearInterval(timer);
-    timeLeft = 25;
-    document.getElementById("timer").textContent = `⏳ ${timeLeft} сек`;
-    timer = setInterval(() => {
-      timeLeft--;
-      document.getElementById("timer").textContent = `⏳ ${timeLeft} сек`;
-      if (timeLeft <= 0) {
-        clearInterval(timer);
-        skipped++;
-        attempts++;
-        if (mode === "normal") currentIndex++;
-        else testIndex++;
-
-        updateStats();
-        updateProgress();
-        saveProgress();
-        newQuestion();
+    buttons.forEach(b => {
+      if (b.innerText === correct) {
+        b.classList.add('correct');
       }
-    }, 1000);
-  }
-
-  function newQuestion() {
-    clearInterval(timer);
-
-    let word;
-    if (mode === "normal") {
-      word = words[Math.floor(Math.random() * words.length)];
-    } else {
-      if (testIndex >= testWords.length) {
-        finishTest();
-        return;
-      }
-      word = testWords[testIndex];
-    }
-
-    document.getElementById("word").textContent = invert ? word.ua : word.en;
-
-    let correct = invert ? word.en : word.ua;
-    let options = [correct];
-
-    while (options.length < 4) {
-      let randomWord = words[Math.floor(Math.random() * words.length)];
-      let random = invert ? randomWord.en : randomWord.ua;
-
-      if (!options.includes(random)) options.push(random);
-    }
-
-    options = options.sort(() => Math.random() - 0.5);
-
-    const div = document.getElementById("options");
-    div.innerHTML = "";
-    options.forEach(opt => {
-      const btn = document.createElement("button");
-      btn.textContent = opt;
-      btn.classList.add("option-btn");
-      btn.onclick = () => {
-        clearInterval(timer);
-        attempts++;
-        if (mode === "normal") currentIndex++;
-
-        [...div.children].forEach(b => b.disabled = true);
-
-        if (opt === correct) {
-          score++;
-          btn.classList.add("correct");
-          if (mode === "test") testScore += 5;
-        } else {
-          btn.classList.add("wrong");
-          [...div.children].forEach(b => {
-            if (b.textContent === correct) b.classList.add("correct");
-          });
-        }
-
-        updateStats();
-        updateProgress();
-        saveProgress();
-
-        if (mode === "normal") {
-          setTimeout(newQuestion, 1200);
-        } else {
-          testIndex++;
-          setTimeout(newQuestion, 1200);
-        }
-      };
-      div.appendChild(btn);
     });
-
-    startTimer();
   }
 
-  document.getElementById("skipBtn").onclick = () => {
-    clearInterval(timer);
-    skipped++;
-    attempts++;
-    if (mode === "normal") currentIndex++;
-    else testIndex++;
+  updateStats();
 
-    updateStats();
-    updateProgress();
-    saveProgress();
-    newQuestion();
-  };
+  setTimeout(() => {
+    loadQuestion();
+  }, 1200);
+}
 
-  document.getElementById("resetBtn").onclick = () => {
-    score = 0;
-    attempts = 0;
-    skipped = 0;
-    currentIndex = 0;
+function skipQuestion() {
+  skippedCount++;
+  totalAttempts++;
+  updateStats();
+  loadQuestion();
+}
 
-    clearProgress();
-    updateStats();
-    updateProgress();
-    newQuestion();
-  };
+function resetStats() {
+  correctCount = 0;
+  wrongCount = 0;
+  skippedCount = 0;
+  totalAttempts = 0;
+  updateStats();
+  resetTimer();
+  loadQuestion();
+}
 
-  document.getElementById("modeBtn").onclick = () => {
-    score = 0;
-    attempts = 0;
-    skipped = 0;
-    currentIndex = 0;
-
-    clearProgress();
-    updateStats();
-    updateProgress();
-    startTest();
-  };
-
-  function startTest() {
-    mode = "test";
-    testWords = [...words].sort(() => Math.random() - 0.5).slice(0, 20);
-    testIndex = 0;
-    testScore = 0;
-    document.getElementById("summary").style.display = "none";
-    updateProgress();
-    newQuestion();
+// Опціонально: функція для повного скидання вивчених слів (наприклад, для кнопки "Скинути прогрес слів")
+function resetWordProgress() {
+  if (confirm("Скинути весь прогрес вивчення слів?")) {
+    localStorage.removeItem('wordProgress');
+    alert("Прогрес слів скинуто!");
+    loadQuestion();
   }
+}
 
-  function finishTest() {
-    document.getElementById("summary").style.display = "block";
-    document.getElementById("sumCorrect").textContent = score;
-    document.getElementById("sumWrong").textContent = attempts - score - skipped;
-    document.getElementById("sumSkipped").textContent = skipped;
-    document.getElementById("sumAccuracy").textContent =
-      attempts > 0 ? Math.round((score / attempts) * 100) + "%" : "0%";
-    document.getElementById("sumScore").textContent = testScore + "/100";
+function updateCounter() {
+  document.getElementById('counter').innerText = `${currentWordIndex + 1}/${currentPool.length}`;
+}
 
-    mode = "normal";
-    currentIndex = 0;
+function updateStats() {
+  document.getElementById('correctCount').innerText = correctCount;
+  document.getElementById('wrongCount').innerText = wrongCount;
+  document.getElementById('skippedCount').innerText = skippedCount;
+  document.getElementById('totalAttempts').innerText = totalAttempts;
 
-    clearProgress();
-    updateProgress();
-  }
+  let accuracy = totalAttempts > 0 ? Math.round((correctCount / totalAttempts) * 100) : 0;
+  document.getElementById('accuracy').innerText = accuracy + '%';
+}
 
-  document.getElementById("wordSet").onchange = async (e) => {
-    selectedFile = e.target.value;
-    localStorage.setItem("wordSet", selectedFile);
+function startTimer() {
+  if (isTimerRunning) return;
+  isTimerRunning = true;
 
-    clearProgress();
-    score = 0;
-    attempts = 0;
-    skipped = 0;
-    currentIndex = 0;
+  timer = setInterval(() => {
+    timeLeft--;
+    document.getElementById('timer').innerText = timeLeft;
+    let percentage = (timeLeft / totalTime) * 100;
+    document.getElementById('progress-bar').style.width = percentage + '%';
 
-    updateStats();
-    updateProgress();
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      showSummary();
+    }
+  }, 1000);
+}
 
-    await loadWords();
-    newQuestion();
-  };
+function resetTimer() {
+  clearInterval(timer);
+  isTimerRunning = false;
+  timeLeft = totalTime;
+  document.getElementById('timer').innerText = timeLeft;
+  document.getElementById('progress-bar').style.width = '100%';
+  startTimer();
+}
 
-  document.getElementById("invertMode").onchange = (e) => {
-    invert = e.target.checked;
-    saveProgress();
-    newQuestion();
-  };
+function showSummary() {
+  document.getElementById('options').innerHTML = '';
+  document.getElementById('word').innerText = 'Тест завершено!';
+  document.getElementById('summary').style.display = 'block';
+  document.getElementById('summaryText').innerText =
+    `Ваш результат: ${correctCount} вірних з ${totalAttempts}. Точність: ${document.getElementById('accuracy').innerText}`;
+}
+
+document.getElementById('wordSet').addEventListener('change', () => {
+  initPool();
+  resetStats();
 });
+
+document.getElementById('invertCheck').addEventListener('change', () => {
+  loadQuestion();
+});
+
+window.onload = () => {
+  initPool();
+  loadQuestion();
+  startTimer();
+};
