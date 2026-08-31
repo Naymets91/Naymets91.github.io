@@ -1,57 +1,137 @@
 <!DOCTYPE html>
+
 <html lang="uk">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Word Trainer</title>
-  <link rel="stylesheet" href="style.css">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Trainer</title>
+<link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
-  <div class="container">
-    <div class="top-info">
-      <span id="counter">0/0</span>
-      <span>⏳ <span id="timer">30</span> сек</span>
-    </div>
 
-    <div class="progress-container">
-      <div id="progress-bar"></div>
-    </div>
 
-    <div class="select-row">
-      <select id="wordSet">
-        <option value="all">Усі слова</option>
-        <option value="months_and_seasons.json">Місяці та пори року</option>
-      </select>
-      <label class="invert-label">
-        <input type="checkbox" id="invertCheck"> Укр → англ
-      </label>
-    </div>
 
-    <div class="word-container">
-      <div id="word" class="word">...</div>
-      <button id="speakBtn" class="speak-btn" title="Прослухати">🔊</button>
-    </div>
+<div class="container">
 
-    <div id="options"></div>
 
-    <div class="buttons-row">
-      <button id="skipBtn" onclick="skipQuestion()">⏭ Пропустити</button>
-      <button id="resetBtn" onclick="resetStats()">🔄 Скинути</button>
-    </div>
 
-    <div class="stats">
-      <p>✔️ Вірних: <span id="correctCount">0</span></p>
-      <p>❌ Спроб: <span id="totalAttempts">0</span></p>
-      <p>⏭ Пропущено: <span id="skippedCount">0</span></p>
-      <p>🎯 Точність: <span id="accuracy">0%</span></p>
-    </div>
+  <div id="word" class="word">...</div>
 
-    <div id="summary" style="display: none;">
-      <h3>Підсумок тесту</h3>
-      <p id="summaryText"></p>
-    </div>
+
+
+  <div id="options" class="options"></div>
+
+
+
+  <!-- Кнопки -->
+
+  <div class="buttons-row">
+
+    <button id="skipBtn">⏭ Пропустити</button>
+
+    <button id="resetBtn">🔄 Скинути</button>
+
+    <button id="modeBtn">🧪 Тест</button>
+
   </div>
 
-  <script src="script.js"></script>
+
+
+  <div class="progress-container">
+
+    <div id="progress-bar"></div>
+
+  </div>
+
+
+
+    <div class="top-info">
+
+    <div id="progress-text">0/0</div>
+
+    <div id="timer">⏳ 25 сек</div>
+
+  </div>
+
+
+
+
+
+  <div class="select-row">
+
+    <select id="wordSet">
+
+      <option value="words.json">Основні слова</option>
+
+      <option value="istqb.json">ISTQB</option>
+
+      <option value="time_and_seasons.json">Час</option>
+
+      <option value="months_and_seasons.json">Місяці та пори року</option>
+
+    </select>
+
+
+
+    <label class="invert-label">
+
+      <input type="checkbox" id="invertMode">
+
+      Укр → англ
+
+    </label>
+
+  </div>
+
+
+
+  <!-- Статистика -->
+
+  <div class="stats">
+
+    <p>✔ Вірних: <span id="score">0</span></p>
+
+    <p>❌ Спроб: <span id="attempts">0</span></p>
+
+    <p>⏭ Пропущено: <span id="skipped">0</span></p>
+
+    <p>🎯 Точність: <span id="accuracy">0%</span></p>
+
+  </div>
+
+
+
+  <!-- Підсумок тесту -->
+
+  <div id="summary" style="display:none;">
+
+    <h2>Результати тесту</h2>
+
+    <p>✔ Вірних: <span id="sumCorrect">0</span></p>
+
+    <p>❌ Невірних: <span id="sumWrong">0</span></p>
+
+    <p>⏭ Пропущено: <span id="sumSkipped">0</span></p>
+
+    <p>🎯 Точність: <span id="sumAccuracy">0%</span></p>
+
+    <p>⭐ Балів: <span id="sumScore">0</span></p>
+
+  </div>
+
+
+
+</div>
+
+
+
+<script src="script.js"></script>
+
 </body>
-</html>
+
+</html> 
+
