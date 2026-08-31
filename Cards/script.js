@@ -1,136 +1,520 @@
-<!DOCTYPE html>
+document.addEventListener("DOMContentLoaded", () => {
 
-<html lang="uk">
+  let words = [];
 
-<head>
+  let score = 0;
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Word Trainer</title>
+  let attempts = 0;
 
-<link rel="stylesheet" href="style.css">
+  let skipped = 0;
 
-</head>
+  let currentIndex = 0;
 
-<body>
+  let mode = "normal";
 
+  let testWords = [];
 
+  let testIndex = 0;
 
-<div class="container">
+  let testScore = 0;
 
+  let timer;
 
+  let timeLeft = 25;
 
-  <div id="word" class="word">...</div>
 
 
+  let invert = false;
 
-  <div id="options" class="options"></div>
 
 
+  let selectedFile = localStorage.getItem("wordSet") || "words.json";
 
-  <!-- Кнопки -->
+  document.getElementById("wordSet").value = selectedFile;
 
-  <div class="buttons-row">
 
-    <button id="skipBtn">⏭ Пропустити</button>
 
-    <button id="resetBtn">🔄 Скинути</button>
+  async function loadWords() {
 
-    <button id="modeBtn">🧪 Тест</button>
+    const res = await fetch(selectedFile);
 
-  </div>
+    const data = await res.json();
 
 
 
-  <div class="progress-container">
+    if (!Array.isArray(data) || data.length === 0) {
 
-    <div id="progress-bar"></div>
+      alert("У цьому наборі слів немає даних.");
 
-  </div>
+      return;
 
+    }
 
 
-    <div class="top-info">
 
-    <div id="progress-text">0/0</div>
+    words = data;
 
-    <div id="timer">⏳ 25 сек</div>
+    loadProgress();
 
-  </div>
+    updateProgress();
 
+  }
 
 
 
+  function saveProgress() {
 
-  <div class="select-row">
+    localStorage.setItem("progress", JSON.stringify({
 
-    <select id="wordSet">
+      score,
 
-      <option value="words.json">Основні слова</option>
+      attempts,
 
-      <option value="istqb.json">ISTQB</option>
+      skipped,
 
-      <option value="time_and_seasons.json">Час</option>
+      currentIndex,
 
-    </select>
+      mode,
 
+      selectedFile,
 
+      invert
 
-    <label class="invert-label">
+    }));
 
-      <input type="checkbox" id="invertMode">
+  }
 
-      Укр → англ
 
-    </label>
 
-  </div>
+  function loadProgress() {
 
+    const saved = JSON.parse(localStorage.getItem("progress"));
 
+    if (!saved) return;
 
-  <!-- Статистика -->
+    if (saved.selectedFile !== selectedFile) return;
 
-  <div class="stats">
 
-    <p>✔ Вірних: <span id="score">0</span></p>
 
-    <p>❌ Спроб: <span id="attempts">0</span></p>
+    score = saved.score ?? 0;
 
-    <p>⏭ Пропущено: <span id="skipped">0</span></p>
+    attempts = saved.attempts ?? 0;
 
-    <p>🎯 Точність: <span id="accuracy">0%</span></p>
+    skipped = saved.skipped ?? 0;
 
-  </div>
+    currentIndex = saved.currentIndex ?? 0;
 
+    mode = saved.mode ?? "normal";
 
+    invert = saved.invert ?? false;
 
-  <!-- Підсумок тесту -->
 
-  <div id="summary" style="display:none;">
 
-    <h2>Результати тесту</h2>
+    document.getElementById("invertMode").checked = invert;
 
-    <p>✔ Вірних: <span id="sumCorrect">0</span></p>
 
-    <p>❌ Невірних: <span id="sumWrong">0</span></p>
 
-    <p>⏭ Пропущено: <span id="sumSkipped">0</span></p>
+    updateStats();
 
-    <p>🎯 Точність: <span id="sumAccuracy">0%</span></p>
+  }
 
-    <p>⭐ Балів: <span id="sumScore">0</span></p>
 
-  </div>
 
+  function clearProgress() {
 
+    localStorage.removeItem("progress");
 
-</div>
+  }
 
 
 
-<script src="script.js"></script>
+  loadWords().then(() => newQuestion());
 
-</body>
 
-</html> 
+
+  function updateStats() {
+
+    document.getElementById("score").textContent = score;
+
+    document.getElementById("attempts").textContent = attempts;
+
+    document.getElementById("skipped").textContent = skipped;
+
+    let accuracy = attempts > 0 ? Math.round((score / attempts) * 100) : 0;
+
+    document.getElementById("accuracy").textContent = accuracy + "%";
+
+  }
+
+
+
+  function updateProgress() {
+
+    const total = mode === "normal" ? words.length : testWords.length;
+
+    const done = mode === "normal" ? currentIndex : testIndex;
+
+    const percent = total > 0 ? Math.round((done / total) * 100) : 0;
+
+    document.getElementById("progress-bar").style.width = percent + "%";
+
+    document.getElementById("progress-text").textContent = `${done}/${total}`;
+
+  }
+
+
+
+  function startTimer() {
+
+    clearInterval(timer);
+
+    timeLeft = 25;
+
+    document.getElementById("timer").textContent = `⏳ ${timeLeft} сек`;
+
+    timer = setInterval(() => {
+
+      timeLeft--;
+
+      document.getElementById("timer").textContent = `⏳ ${timeLeft} сек`;
+
+      if (timeLeft <= 0) {
+
+        clearInterval(timer);
+
+        skipped++;
+
+        attempts++;
+
+        if (mode === "normal") currentIndex++;
+
+        else testIndex++;
+
+
+
+        updateStats();
+
+        updateProgress();
+
+        saveProgress();
+
+        newQuestion();
+
+      }
+
+    }, 1000);
+
+  }
+
+
+
+  function newQuestion() {
+
+    clearInterval(timer);
+
+
+
+    let word;
+
+    if (mode === "normal") {
+
+      word = words[Math.floor(Math.random() * words.length)];
+
+    } else {
+
+      if (testIndex >= testWords.length) {
+
+        finishTest();
+
+        return;
+
+      }
+
+      word = testWords[testIndex];
+
+    }
+
+
+
+    document.getElementById("word").textContent = invert ? word.ua : word.en;
+
+
+
+    let correct = invert ? word.en : word.ua;
+
+    let options = [correct];
+
+
+
+    while (options.length < 4) {
+
+      let randomWord = words[Math.floor(Math.random() * words.length)];
+
+      let random = invert ? randomWord.en : randomWord.ua;
+
+
+
+      if (!options.includes(random)) options.push(random);
+
+    }
+
+
+
+    options = options.sort(() => Math.random() - 0.5);
+
+
+
+    const div = document.getElementById("options");
+
+    div.innerHTML = "";
+
+    options.forEach(opt => {
+
+      const btn = document.createElement("button");
+
+      btn.textContent = opt;
+
+      btn.classList.add("option-btn");
+
+      btn.onclick = () => {
+
+        clearInterval(timer);
+
+        attempts++;
+
+        if (mode === "normal") currentIndex++;
+
+
+
+        [...div.children].forEach(b => b.disabled = true);
+
+
+
+        if (opt === correct) {
+
+          score++;
+
+          btn.classList.add("correct");
+
+          if (mode === "test") testScore += 5;
+
+        } else {
+
+          btn.classList.add("wrong");
+
+          [...div.children].forEach(b => {
+
+            if (b.textContent === correct) b.classList.add("correct");
+
+          });
+
+        }
+
+
+
+        updateStats();
+
+        updateProgress();
+
+        saveProgress();
+
+
+
+        if (mode === "normal") {
+
+          setTimeout(newQuestion, 1200);
+
+        } else {
+
+          testIndex++;
+
+          setTimeout(newQuestion, 1200);
+
+        }
+
+      };
+
+      div.appendChild(btn);
+
+    });
+
+
+
+    startTimer();
+
+  }
+
+
+
+  document.getElementById("skipBtn").onclick = () => {
+
+    clearInterval(timer);
+
+    skipped++;
+
+    attempts++;
+
+    if (mode === "normal") currentIndex++;
+
+    else testIndex++;
+
+
+
+    updateStats();
+
+    updateProgress();
+
+    saveProgress();
+
+    newQuestion();
+
+  };
+
+
+
+  document.getElementById("resetBtn").onclick = () => {
+
+    score = 0;
+
+    attempts = 0;
+
+    skipped = 0;
+
+    currentIndex = 0;
+
+
+
+    clearProgress();
+
+    updateStats();
+
+    updateProgress();
+
+    newQuestion();
+
+  };
+
+
+
+  document.getElementById("modeBtn").onclick = () => {
+
+    score = 0;
+
+    attempts = 0;
+
+    skipped = 0;
+
+    currentIndex = 0;
+
+
+
+    clearProgress();
+
+    updateStats();
+
+    updateProgress();
+
+    startTest();
+
+  };
+
+
+
+  function startTest() {
+
+    mode = "test";
+
+    testWords = [...words].sort(() => Math.random() - 0.5).slice(0, 20);
+
+    testIndex = 0;
+
+    testScore = 0;
+
+    document.getElementById("summary").style.display = "none";
+
+    updateProgress();
+
+    newQuestion();
+
+  }
+
+
+
+  function finishTest() {
+
+    document.getElementById("summary").style.display = "block";
+
+    document.getElementById("sumCorrect").textContent = score;
+
+    document.getElementById("sumWrong").textContent = attempts - score - skipped;
+
+    document.getElementById("sumSkipped").textContent = skipped;
+
+    document.getElementById("sumAccuracy").textContent =
+
+      attempts > 0 ? Math.round((score / attempts) * 100) + "%" : "0%";
+
+    document.getElementById("sumScore").textContent = testScore + "/100";
+
+
+
+    mode = "normal";
+
+    currentIndex = 0;
+
+
+
+    clearProgress();
+
+    updateProgress();
+
+  }
+
+
+
+  document.getElementById("wordSet").onchange = async (e) => {
+
+    selectedFile = e.target.value;
+
+    localStorage.setItem("wordSet", selectedFile);
+
+
+
+    clearProgress();
+
+    score = 0;
+
+    attempts = 0;
+
+    skipped = 0;
+
+    currentIndex = 0;
+
+
+
+    updateStats();
+
+    updateProgress();
+
+
+
+    await loadWords();
+
+    newQuestion();
+
+  };
+
+
+
+  document.getElementById("invertMode").onchange = (e) => {
+
+    invert = e.target.checked;
+
+    saveProgress();
+
+    newQuestion();
+
+  };
+
+}); 
 
