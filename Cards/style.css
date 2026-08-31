@@ -24,6 +24,12 @@ body {
   max-width: 480px;
 }
 
+h2 {
+  font-size: 26px;
+  margin: 15px 0;
+  color: #333;
+}
+
 /* Верхня панель: кількість слів + таймер */
 .top-info {
   display: flex;
@@ -70,39 +76,16 @@ body {
   cursor: pointer;
 }
 
-/* Блок слова та озвучки */
-.word-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin: 15px 0;
-}
-
+/* Слово */
 .word {
   font-size: 30px;
   font-weight: bold;
+  margin: 20px 0;
   color: #2c3e50;
   word-break: break-word;
-  margin: 0;
 }
 
-.speak-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 50%;
-  transition: transform 0.15s ease;
-  user-select: none;
-}
-
-.speak-btn:active {
-  transform: scale(1.25);
-}
-
-/* Варіанти відповідей (гарантовано 2 в ряд) */
+/* Варіанти відповідей (завжди 2 в ряд) */
 #options {
   display: grid;
   grid-template-columns: 1fr 1fr;
