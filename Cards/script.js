@@ -10,11 +10,12 @@ let skippedCount = 0;
 let totalAttempts = 0;
 
 let currentPool = [];
+let wordSets = {};
 
-// --- 🔊 ОЗВУЧКА СЛІВ (Web Speech API) ---
+// --- ОЗВУЧКА СЛІВ (Web Speech API) ---
 function speakText(text) {
   if (!text) return;
-  window.speechSynthesis.cancel(); // Зупиняємо попередню озвучку
+  window.speechSynthesis.cancel();
 
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = 'en-US';
@@ -29,7 +30,7 @@ function speakCurrentWord() {
   speakText(current.word);
 }
 
-// --- 🧠 ІНТЕРВАЛЬНІ ПОВТОРЕННЯ (LEITNER / LOCALSTORAGE) ---
+// --- ІНТЕРВАЛЬНІ ПОВТОРЕННЯ (LEITNER / LOCALSTORAGE) ---
 function getWordProgress() {
   const saved = localStorage.getItem('wordProgress');
   return saved ? JSON.parse(saved) : {};
@@ -42,7 +43,7 @@ function updateWordLevel(wordKey, isCorrect) {
   if (isCorrect) {
     if (currentLevel < 3) currentLevel++;
   } else {
-    currentLevel = 1; // При помилці одразу скидаємо у "важкі"
+    currentLevel = 1;
   }
 
   progress[wordKey] = currentLevel;
@@ -54,12 +55,12 @@ function getWeightedRandomIndex() {
 
   const progress = getWordProgress();
 
-  const level1 = []; // Важкі / Нові (60%)
-  const level2 = []; // Знайомі (30%)
-  const level3 = []; // Вивчені (10%)
+  const level1 = [];
+  const level2 = [];
+  const level3 = [];
 
   currentPool.forEach((item, index) => {
-    if (index === currentWordIndex) return; // Не повторювати слово поспіль
+    if (index === currentWordIndex) return;
 
     const level = progress[item.word] || 1;
     if (level === 1) level1.push(index);
@@ -86,13 +87,35 @@ function getWeightedRandomIndex() {
   return targetGroup[randomIndex];
 }
 
-// --- 🎮 ОСНОВНА ЛОГІКА ТРЕНАЖЕРА ---
+// --- ЗАВАНТАЖЕННЯ ТА ЛОГІКА ГРИ ---
+async function loadWordSets() {
+  try {
+    const response = await fetch('months_and_seasons.json');
+    const data = await response.json();
+    
+    // Якщо у JSON масив слів або об'єкт з наборами
+    if (Array.isArray(data)) {
+      wordSets = { 'months_and_seasons.json': data };
+    } else {
+      wordSets = data;
+    }
+
+    initPool();
+    loadQuestion();
+    startTimer();
+  } catch (error) {
+    console.error('Помилка завантаження слів:', error);
+  }
+}
+
 function initPool() {
   const selectedSet = document.getElementById('wordSet').value;
   if (selectedSet === 'all') {
     currentPool = [];
     for (let set in wordSets) {
-      currentPool = currentPool.concat(wordSets[set]);
+      if (Array.isArray(wordSets[set])) {
+        currentPool = currentPool.concat(wordSets[set]);
+      }
     }
   } else {
     currentPool = wordSets[selectedSet] || [];
@@ -100,10 +123,8 @@ function initPool() {
 }
 
 function loadQuestion() {
-  if (!currentPool || currentPool.length === 0) initPool();
-  if (currentPool.length === 0) return;
+  if (!currentPool || currentPool.length === 0) return;
 
-  // Вибір слова за алгоритмом інтервальних повторень
   currentWordIndex = getWeightedRandomIndex();
 
   const current = currentPool[currentWordIndex];
@@ -146,7 +167,7 @@ function checkAnswer(btn, selected) {
 
   totalAttempts++;
 
-  // Озвучуємо англійське слово під час відповіді
+  // Авто-озвучка англійської вимови
   speakText(current.word);
 
   if (selected === correct) {
@@ -246,14 +267,8 @@ document.getElementById('invertCheck').addEventListener('change', () => {
   loadQuestion();
 });
 
-// Кнопка 🔊 якщо є в HTML
-const speakBtn = document.getElementById('speakBtn');
-if (speakBtn) {
-  speakBtn.addEventListener('click', speakCurrentWord);
-}
+document.getElementById('speakBtn').addEventListener('click', speakCurrentWord);
 
 window.onload = () => {
-  initPool();
-  loadQuestion();
-  startTimer();
+  loadWordSets();
 };
