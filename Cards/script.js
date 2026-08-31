@@ -11,15 +11,30 @@ let totalAttempts = 0;
 
 let currentPool = [];
 
-// --- ЛОГІКА ІНТЕРВАЛЬНИХ ПОВТОРЕНЬ (LEITNER / LOCALSTORAGE) ---
+// --- 🔊 ОЗВУЧКА СЛІВ (Web Speech API) ---
+function speakText(text) {
+  if (!text) return;
+  window.speechSynthesis.cancel(); // Зупиняємо попередню озвучку
 
-// Отримати рівні слів з localStorage
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'en-US';
+  utterance.rate = 0.9;
+
+  window.speechSynthesis.speak(utterance);
+}
+
+function speakCurrentWord() {
+  if (currentWordIndex === null || !currentPool[currentWordIndex]) return;
+  const current = currentPool[currentWordIndex];
+  speakText(current.word);
+}
+
+// --- 🧠 ІНТЕРВАЛЬНІ ПОВТОРЕННЯ (LEITNER / LOCALSTORAGE) ---
 function getWordProgress() {
   const saved = localStorage.getItem('wordProgress');
   return saved ? JSON.parse(saved) : {};
 }
 
-// Зберегти рівень слова
 function updateWordLevel(wordKey, isCorrect) {
   const progress = getWordProgress();
   let currentLevel = progress[wordKey] || 1;
@@ -27,28 +42,24 @@ function updateWordLevel(wordKey, isCorrect) {
   if (isCorrect) {
     if (currentLevel < 3) currentLevel++;
   } else {
-    currentLevel = 1; // При помилці одразу повертаємо в "важкі"
+    currentLevel = 1; // При помилці одразу скидаємо у "важкі"
   }
 
   progress[wordKey] = currentLevel;
   localStorage.setItem('wordProgress', JSON.stringify(progress));
 }
 
-// Вибір слова з урахуванням вагових коефіцієнтів (60% / 30% / 10%)
 function getWeightedRandomIndex() {
-  if (currentPool.length === 0) return 0;
-  if (currentPool.length === 1) return 0;
+  if (currentPool.length <= 1) return 0;
 
   const progress = getWordProgress();
 
-  // Розподіляємо індекси поточного набору по кошиках
-  const level1 = []; // Важкі / Нові
-  const level2 = []; // В процесі
-  const level3 = []; // Засвоєні
+  const level1 = []; // Важкі / Нові (60%)
+  const level2 = []; // Знайомі (30%)
+  const level3 = []; // Вивчені (10%)
 
   currentPool.forEach((item, index) => {
-    // Не беремо те саме слово поспіль, якщо в наборі більше 1 слова
-    if (index === currentWordIndex) return;
+    if (index === currentWordIndex) return; // Не повторювати слово поспіль
 
     const level = progress[item.word] || 1;
     if (level === 1) level1.push(index);
@@ -56,7 +67,6 @@ function getWeightedRandomIndex() {
     else level3.push(index);
   });
 
-  // Шанси: 60% - level1, 30% - level2, 10% - level3
   const rand = Math.random() * 100;
   let targetGroup = [];
 
@@ -67,19 +77,16 @@ function getWeightedRandomIndex() {
   } else if (level3.length > 0) {
     targetGroup = level3;
   } else {
-    // Якщо вибрана група порожня, збираємо всі доступні індекси
     targetGroup = [...level1, ...level2, ...level3];
   }
 
-  // Якщо всі доступні слова це поточне слово — повертаємо його
   if (targetGroup.length === 0) return currentWordIndex;
 
   const randomIndex = Math.floor(Math.random() * targetGroup.length);
   return targetGroup[randomIndex];
 }
 
-// -------------------------------------------------------------
-
+// --- 🎮 ОСНОВНА ЛОГІКА ТРЕНАЖЕРА ---
 function initPool() {
   const selectedSet = document.getElementById('wordSet').value;
   if (selectedSet === 'all') {
@@ -93,9 +100,10 @@ function initPool() {
 }
 
 function loadQuestion() {
-  if (currentPool.length === 0) initPool();
+  if (!currentPool || currentPool.length === 0) initPool();
+  if (currentPool.length === 0) return;
 
-  // Використовуємо адаптивний вибір замість чисто випадкового
+  // Вибір слова за алгоритмом інтервальних повторень
   currentWordIndex = getWeightedRandomIndex();
 
   const current = currentPool[currentWordIndex];
@@ -104,7 +112,7 @@ function loadQuestion() {
   document.getElementById('word').innerText = isInverted ? current.translation : current.word;
 
   let options = [isInverted ? current.word : current.translation];
-  while (options.length < 4) {
+  while (options.length < 4 && options.length < currentPool.length) {
     let randomObj = currentPool[Math.floor(Math.random() * currentPool.length)];
     let optionText = isInverted ? randomObj.word : randomObj.translation;
     if (!options.includes(optionText)) {
@@ -138,15 +146,16 @@ function checkAnswer(btn, selected) {
 
   totalAttempts++;
 
+  // Озвучуємо англійське слово під час відповіді
+  speakText(current.word);
+
   if (selected === correct) {
     btn.classList.add('correct');
     correctCount++;
-    // Підвищуємо рівень слова (слово випадатиме рідше)
     updateWordLevel(current.word, true);
   } else {
     btn.classList.add('wrong');
     wrongCount++;
-    // Помилка: скидаємо на 1 рівень (слово випадатиме частіше)
     updateWordLevel(current.word, false);
 
     buttons.forEach(b => {
@@ -178,15 +187,6 @@ function resetStats() {
   updateStats();
   resetTimer();
   loadQuestion();
-}
-
-// Опціонально: функція для повного скидання вивчених слів (наприклад, для кнопки "Скинути прогрес слів")
-function resetWordProgress() {
-  if (confirm("Скинути весь прогрес вивчення слів?")) {
-    localStorage.removeItem('wordProgress');
-    alert("Прогрес слів скинуто!");
-    loadQuestion();
-  }
 }
 
 function updateCounter() {
@@ -245,6 +245,12 @@ document.getElementById('wordSet').addEventListener('change', () => {
 document.getElementById('invertCheck').addEventListener('change', () => {
   loadQuestion();
 });
+
+// Кнопка 🔊 якщо є в HTML
+const speakBtn = document.getElementById('speakBtn');
+if (speakBtn) {
+  speakBtn.addEventListener('click', speakCurrentWord);
+}
 
 window.onload = () => {
   initPool();
